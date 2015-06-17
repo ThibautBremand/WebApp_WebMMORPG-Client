@@ -13,19 +13,34 @@ var nickname = prompt('Enter your nickname','guest');
 var conn = new WebSocket('ws://localhost:8080' + '?' + nickname);
 
 conn.onopen = function(e) {
-	alert ("Connection established!");
-    //console.log("Connection established!");
+	$("#logs").append("Connection established!</br>");
 };
 
 conn.onmessage = function(e) {
     var mess = e.data.split(":");
     switch(mess[0]) {
     case "ENTER":
-        alert (e.data);
+        $("#logs").append(mess[2] + " just logged in !" + "</br>");
+
+        //new character
+        if ( mess[2] != nickname ) {
+            map.addPersonnage(new Personnage("exemple.png", 7, 14, DIRECTION.BAS, mess[2]));
+        }
+
         break;
     case "MOVE":
-    	
     	break;
+    case "LEAVE":
+        $("#logs").append(mess[2] + " left !</br>");
+        break;
+    case "ERROR":
+        alert(mess[1]);
+        break;
+    case "LAUNCH":
+        joueur = new Personnage("exemple.png", 7, 14, DIRECTION.BAS, nickname);
+        map.addPersonnage(joueur);
+        drawRPG();
+        break;
     default:
         break;
 	} 

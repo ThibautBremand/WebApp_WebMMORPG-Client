@@ -1,4 +1,5 @@
 var tileSize = 16;
+var joueur;
 
 var mapsToDraw = new Array();
 mapsToDraw.push("sans-titre");
@@ -7,10 +8,7 @@ mapsToDraw.push("sans-titre");
 var map = new Map(mapsToDraw);
 map.loadLayers();
 
-var joueur = new Personnage("exemple.png", 7, 14, DIRECTION.BAS);
-map.addPersonnage(joueur);
-
-window.onload = function() {
+function drawRPG() {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	
