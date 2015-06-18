@@ -66,6 +66,7 @@ function Map(json) {
 	// To add a character
 	this.addPersonnage = function(char) {
 		this.characters.push(char);
+		drawRPG();
 	}
 
     return this;
