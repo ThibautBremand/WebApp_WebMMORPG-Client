@@ -1,6 +1,8 @@
 var tileSize = 16;
 var joueur;
 
+var separator = "%:%";
+
 var mapsToDraw = new Array();
 mapsToDraw.push("sans-titre");
 //mapsToDraw.push("sans-titre2");
@@ -27,20 +29,24 @@ function drawRPG() {
 		
 		switch(key) {
 			case 38 : case 122 : case 119 : case 90 : case 87 : // Up arrow, z, w, Z, W
-				joueur.move(DIRECTION.HAUT, map);
-				conn.send("MOVE:" + DIRECTION.HAUT + ":" + nickname);
+				if ( joueur.move(DIRECTION.HAUT, map) ) {
+					conn.send("MOVE" + separator + DIRECTION.HAUT + separator + joueur.name);
+				}
 				break;
 			case 40 : case 115 : case 83 : // Down arrow, s, S
-				joueur.move(DIRECTION.BAS, map);
-				conn.send("MOVE:" + DIRECTION.BAS + ":" + nickname);
+				if ( joueur.move(DIRECTION.BAS, map) ) {
+					conn.send("MOVE" + separator + DIRECTION.BAS + separator + joueur.name);
+				}
 				break;
 			case 37 : case 113 : case 97 : case 81 : case 65 : // Left arrow, q, a, Q, A
-				joueur.move(DIRECTION.GAUCHE, map);
-				conn.send("MOVE:" + DIRECTION.GAUCHE + ":" + nickname);
+				if ( joueur.move(DIRECTION.GAUCHE, map) ) {
+					conn.send("MOVE" + separator + DIRECTION.GAUCHE + separator + joueur.name);
+				}
 				break;
 			case 39 : case 100 : case 68 : // Right arrow, d, D
-				joueur.move(DIRECTION.DROITE, map);
-				conn.send("MOVE:" + DIRECTION.DROITE + ":" + nickname);
+				if ( joueur.move(DIRECTION.DROITE, map) ) {
+					conn.send("MOVE" + separator + DIRECTION.DROITE + separator + joueur.name);
+				}
 				break;
 			default : 
 				//alert(key);

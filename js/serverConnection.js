@@ -36,12 +36,15 @@ conn.onmessage = function(e) {
             var currentChar = characters[0];
             map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
         }*/
-
-        joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name)
-        map.addPersonnage(joueur);
+        map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
 
         break;
     case "MOVE":
+        for ( var i = 0; i < map.characters.length; ++i ) {
+            if ( map.characters[i].name == mess[2] ) {
+                map.characters[i].move(mess[1], map)
+            }
+        }
     	break;
     case "LEAVE":
         $("#logs").append(mess[2] + " left !</br>");
@@ -50,9 +53,10 @@ conn.onmessage = function(e) {
         alert(mess[1]);
         break;
     case "LAUNCH":
-        //joueur = new Personnage("exemple.png", 7, 14, DIRECTION.BAS, nickname);
-        //map.addPersonnage(joueur);
         drawRPG();
+        var currentChar = jQuery.parseJSON(mess[1]);
+        joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        map.addPersonnage(joueur);
         break;
     case "CHARSCONNECTED":
         var currentChar = jQuery.parseJSON(mess[2]);

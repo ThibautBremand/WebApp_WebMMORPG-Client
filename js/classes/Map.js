@@ -57,7 +57,7 @@ function Map(json) {
 			}
 		}
 
-		// Draws the main character
+		// Draws the characters
 		for(var i = 0, l = this.characters.length ; i < l ; i++) {
 			this.characters[i].drawCharacter(context);
 		}
@@ -66,7 +66,6 @@ function Map(json) {
 	// To add a character
 	this.addPersonnage = function(char) {
 		this.characters.push(char);
-		drawRPG();
 	}
 
     return this;
