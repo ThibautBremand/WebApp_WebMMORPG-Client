@@ -6,12 +6,13 @@ var DIRECTION = {
 }
 
 var DUREE_ANIMATION = 4;
-var DUREE_DEPLACEMENT = 10;
+var DUREE_DEPLACEMENT = 15;
 
-function Personnage(url, x, y, direction) {
+function Personnage(url, x, y, direction, nickname) {
 	this.x = x; // (cases)
 	this.y = y; // (cases)
 	this.direction = direction;
+	this.name = nickname;
 	this.etatAnimation = -1;
 	
 	// Loads the image in the image attribute
@@ -72,23 +73,23 @@ function Personnage(url, x, y, direction) {
 			(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY,
 			this.largeur, this.hauteur // Taille du rectangle destination (c'est la taille du personnage)
 		);
+		var nicklength = this.name.length;
+		context.fillText(this.name,(this.x * 32) - nicklength,(this.y * 32) - 25);
 	};
 
 	this.getCoordonneesAdjacentes = function(direction) {
 		var coord = {'x' : this.x, 'y' : this.y};
-		switch(direction) {
-			case DIRECTION.BAS : 
-				coord.y++;
-				break;
-			case DIRECTION.GAUCHE : 
-				coord.x--;
-				break;
-			case DIRECTION.DROITE : 
-				coord.x++;
-				break;
-			case DIRECTION.HAUT : 
-				coord.y--;
-				break;
+		if ( direction == DIRECTION.BAS ) {
+			coord.y++;
+		}
+		else if ( direction == DIRECTION.GAUCHE ) {
+			coord.x--;
+		}
+		else if ( direction == DIRECTION.DROITE ) {
+			coord.x++;
+		}
+		else if ( direction == DIRECTION.HAUT ) {
+			coord.y--;
 		}
 		return coord;
 	};
@@ -115,8 +116,7 @@ function Personnage(url, x, y, direction) {
 			
 		// On effectue le déplacement
 		this.x = prochaineCase.x;
-		this.y = prochaineCase.y;
-			
+		this.y = prochaineCase.y;		
 		return true;
 	};
 
