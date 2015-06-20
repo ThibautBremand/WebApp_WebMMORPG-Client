@@ -47,10 +47,9 @@ function Map(json) {
 		for (currMap = 0; currMap < this.layers.length; ++currMap ) {
 			var cpt = 0;
 
-			for (var i = 0; i < this.width; ++i){
-				for (var j = 0; j < this.height; ++j) {
+			for (var j = 0; j < this.height; ++j){
+				for (var i = 0; i < this.width; ++i) {
 					var currentTile = this.layers[currMap][cpt];
-
 					this.tilesets[currMap].drawTitle(currentTile, context, i*tileSize, j*tileSize);
 					cpt++;
 				}
