@@ -38,7 +38,16 @@ conn.onmessage = function(e) {
         }
     	break;
     case "LEAVE":
-        $("#logs").append(mess[2] + " left !</br>");
+        if ( mess[2] != null ) {
+            $("#logs").append(mess[2] + " left !</br>");
+
+            var charToDel = jQuery.parseJSON(mess[3]);
+            for ( var i = 0; i < map.characters.length; ++i ) {
+                if ( map.characters[i].name == charToDel.name ){
+                    map.characters.splice(i, 1);
+                }
+            }
+        }
         break;
     case "ERROR":
         alert(mess[1]);
