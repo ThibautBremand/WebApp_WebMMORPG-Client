@@ -29,22 +29,22 @@ function drawRPG() {
 		
 		switch(key) {
 			case 38 : case 122 : case 119 : case 90 : case 87 : // Up arrow, z, w, Z, W
-				if ( joueur.move(DIRECTION.HAUT, map) ) {
+				if ( joueur.move(DIRECTION.HAUT, map, true) ) {
 					conn.send("MOVE" + separator + DIRECTION.HAUT + separator + joueur.name);
 				}
 				break;
 			case 40 : case 115 : case 83 : // Down arrow, s, S
-				if ( joueur.move(DIRECTION.BAS, map) ) {
+				if ( joueur.move(DIRECTION.BAS, map, true) ) {
 					conn.send("MOVE" + separator + DIRECTION.BAS + separator + joueur.name);
 				}
 				break;
 			case 37 : case 113 : case 97 : case 81 : case 65 : // Left arrow, q, a, Q, A
-				if ( joueur.move(DIRECTION.GAUCHE, map) ) {
+				if ( joueur.move(DIRECTION.GAUCHE, map, true) ) {
 					conn.send("MOVE" + separator + DIRECTION.GAUCHE + separator + joueur.name);
 				}
 				break;
 			case 39 : case 100 : case 68 : // Right arrow, d, D
-				if ( joueur.move(DIRECTION.DROITE, map) ) {
+				if ( joueur.move(DIRECTION.DROITE, map, true) ) {
 					conn.send("MOVE" + separator + DIRECTION.DROITE + separator + joueur.name);
 				}
 				break;

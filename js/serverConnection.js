@@ -27,22 +27,13 @@ conn.onmessage = function(e) {
         var currentChar = characters[0];
 
         $("#logs").append(currentChar.name + " just logged in !" + "</br>");
-
-        /*
-        //new character
-        if ( mess[2] != nickname ) {
-            //map.addPersonnage(new Personnage("exemple.png", 7, 14, DIRECTION.BAS, mess[2]));
-            var characters = jQuery.parseJSON(mess[1]);
-            var currentChar = characters[0];
-            map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
-        }*/
         map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
 
         break;
     case "MOVE":
         for ( var i = 0; i < map.characters.length; ++i ) {
             if ( map.characters[i].name == mess[2] ) {
-                map.characters[i].move(mess[1], map)
+                map.characters[i].move(mess[1], map, false)
             }
         }
     	break;
