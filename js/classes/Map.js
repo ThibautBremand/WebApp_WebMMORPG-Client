@@ -15,29 +15,6 @@ function Map(json) {
 
 		var xhr = getXMLHttpRequest();
 
-		/*for ( var i = 0; i < this.mapsToDraw.length ; ++i ) {
-
-			// AJAX "Old school"
-			xhr.open("GET", './maps/' + this.mapsToDraw[0] + '.json', false);
-			xhr.send(null);
-			if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 0)) // Code == 0 en local
-				throw new Error("Cannot load the map : " + this.mapsToDraw[0] + '.json' + "\" (code HTTP : " + xhr.status + ").");
-			var mapJsonData = xhr.responseText;
-			var mapData = JSON.parse(mapJsonData);
-
-			// Retrieves tileset
-			var tilesets = mapData.tilesets;
-			var image = tilesets[0].image;
-			image = image.substring(image.search("/tilesets/")+"/tilesets/".length, image.length)
-
-			// Affects the attributes from the JSON
-			this.tilesets.push(new Tileset(image));
-			this.height = mapData.layers[i].height;
-			this.width = mapData.layers[i].width;
-			this.layers.push(mapData.layers[i].data);
-		}*/
-
-
 			// AJAX "Old school"
 
 			// Retrieves map from server
