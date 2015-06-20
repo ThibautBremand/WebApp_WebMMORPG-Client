@@ -1,4 +1,4 @@
-var tileSize = 16;
+//var tileSize = 16;
 
 // Map Object - Attributes & methods
 function Map(json) {
