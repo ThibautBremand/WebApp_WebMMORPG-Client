@@ -94,10 +94,12 @@ function Personnage(url, x, y, direction, nickname) {
 		return coord;
 	};
 
-	this.move = function(direction, map) {
+	this.move = function(direction, map, mainChar) {
 		// On ne peut pas se déplacer si un mouvement est déjà en cours !
-		if(this.etatAnimation >= 0) {
-			return false;
+		if ( mainChar ) {
+			if(this.etatAnimation >= 0) {
+				return false;
+			}
 		}
 
 		// On change la direction du personnage
