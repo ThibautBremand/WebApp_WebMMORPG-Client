@@ -1,10 +1,10 @@
-var tileSize = 16;
+var tileSize = 32;
 var joueur;
 
 var separator = "%:%";
 
 var mapsToDraw = new Array();
-mapsToDraw.push("sans-titre");
+mapsToDraw.push("troisieme");
 //mapsToDraw.push("sans-titre2");
 
 var map = new Map(mapsToDraw);

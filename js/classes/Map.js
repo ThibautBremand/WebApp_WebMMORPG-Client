@@ -1,8 +1,8 @@
-var tileSize = 16;
+//var tileSize = 16;
 
 // Map Object - Attributes & methods
 function Map(json) {
-    this.jsonLayers = json;
+    this.mapsToDraw = json;
 
     this.height = 0;
     this.width = 0;
@@ -15,29 +15,33 @@ function Map(json) {
 
 		var xhr = getXMLHttpRequest();
 
-		for ( var i = 0; i < this.jsonLayers.length ; ++i ) {
-
 			// AJAX "Old school"
-			xhr.open("GET", './maps/' + this.jsonLayers[i] + '.json', false);
+
+			// Retrieves map from server
+			xhr.open("GET", './maps/' + this.mapsToDraw[0] + '.json', false);
 			xhr.send(null);
-			if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 0)) // Code == 0 en local
-				throw new Error("Cannot load the map : " + this.jsonLayers[i] + '.json' + "\" (code HTTP : " + xhr.status + ").");
+			if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 0))
+				throw new Error("Cannot load the map : " + this.mapsToDraw[0] + '.json' + "\" (code HTTP : " + xhr.status + ").");
 			var mapJsonData = xhr.responseText;
 			var mapData = JSON.parse(mapJsonData);
 
+			// Retrieves all the layers for the map
+			var layers = mapData.layers;
 			// Retrieves tileset
 			var tilesets = mapData.tilesets;
-			var image = tilesets[0].image;
-			image = image.substring(image.search("/tilesets/")+"/tilesets/".length, image.length)
+			for ( var i = 0; i < layers.length; ++i ) {
+				var image = tilesets[i].image;
+				image = image.substring(image.search("/tilesets/")+"/tilesets/".length, image.length);
 
-			var map = mapData.layers[0].data;
+				var layer = layers[i].data;
+				this.height = mapData.layers[i].height;
+				this.width = mapData.layers[i].width;
 
-			// Affects the attributes from the JSON
-			this.tilesets.push(new Tileset(image));
-			this.height = mapData.layers[i].height;
-			this.width = mapData.layers[i].width;
-			this.layers.push(mapData.layers[i].data);
-	    }
+				this.tilesets.push(new Tileset(image, tilesets[i].firstgid));
+				this.layers.push(layer);
+			}
+
+	    //}
     };
 
     // Draws the object Map
@@ -46,12 +50,13 @@ function Map(json) {
 		// Draws the layers
 		for (currMap = 0; currMap < this.layers.length; ++currMap ) {
 			var cpt = 0;
-
-			for (var i = 0; i < this.width; ++i){
-				for (var j = 0; j < this.height; ++j) {
+			for (var j = 0; j < this.height; ++j){
+				for (var i = 0; i < this.width; ++i) {
 					var currentTile = this.layers[currMap][cpt];
-
-					this.tilesets[currMap].drawTitle(currentTile, context, i*tileSize, j*tileSize);
+					if ( currentTile > 0 ) {
+						this.electAndDrawTile(currentTile, context, i, j);
+						//this.tilesets[currMap].drawTitle(currentTile - this.layers[currMap][cpt].firstgid, context, i*tileSize, j*tileSize);
+					}
 					cpt++;
 				}
 			}
@@ -66,7 +71,21 @@ function Map(json) {
 	// To add a character
 	this.addPersonnage = function(char) {
 		this.characters.push(char);
-	}
+	};
+
+	// Elects and draws the corretc tile from a tileset
+	this.electAndDrawTile = function(currentTile, context, i, j) {
+		var tilesetToUse;
+		for ( var l = 0; l < this.tilesets.length; ++l ) {
+			if ( this.tilesets[l].firstgid > currentTile && currentTile > 1 ) {
+				tilesetToUse = this.tilesets[l - 1];
+				tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + l, context, i*tileSize, j*tileSize);
+				return true;
+			}
+		}
+		tilesetToUse = this.tilesets[this.tilesets.length - 1];
+		tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + this.tilesets.length - 1, context, i*tileSize, j*tileSize);
+	};
 
     return this;
 }
