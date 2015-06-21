@@ -9,6 +9,7 @@ function Map(json) {
     this.layers = new Array();
     this.characters = new Array();
     this.tilesets = new Array();
+    this.collisions = new Array();
 
     // Loads the layers from the json files given
     this.loadLayers = function() {
@@ -30,15 +31,20 @@ function Map(json) {
 			// Retrieves tileset
 			var tilesets = mapData.tilesets;
 			for ( var i = 0; i < layers.length; ++i ) {
-				var image = tilesets[i].image;
-				image = image.substring(image.search("/tilesets/")+"/tilesets/".length, image.length);
+				if ( layers[i].name != "Collisions" ) {
+					var image = tilesets[i].image;
+					image = image.substring(image.search("/tilesets/")+"/tilesets/".length, image.length);
 
-				var layer = layers[i].data;
-				this.height = mapData.layers[i].height;
-				this.width = mapData.layers[i].width;
+					var layer = layers[i].data;
+					this.height = mapData.layers[i].height;
+					this.width = mapData.layers[i].width;
 
-				this.tilesets.push(new Tileset(image, tilesets[i].firstgid));
-				this.layers.push(layer);
+					this.tilesets.push(new Tileset(image, tilesets[i].firstgid));
+					this.layers.push(layer);
+				}
+				else {
+					this.collisions = layers[i].objects;
+				}
 			}
 
 	    //}
@@ -86,6 +92,29 @@ function Map(json) {
 		tilesetToUse = this.tilesets[this.tilesets.length - 1];
 		tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + this.tilesets.length - 1, context, i*tileSize, j*tileSize);
 	};
+
+	// Detects if a position is an obstacle
+	this.isObstacle = function ( positionToCheck ) {
+		if (this.collisions.length > 0 ) {
+			for ( var i = 0; i < this.collisions.length; ++i ) {
+				var collWidth = this.collisions[i].width;
+				var collHeight = this.collisions[i].height;
+				var collX = this.collisions[i].x;
+				var collY = this.collisions[i].y;
+
+				var checkX = ( positionToCheck.x * tileSize ) + tileSize ;
+				var checkY = ( positionToCheck.y * tileSize ) + tileSize ;
+
+				//alert ("check : x : " + checkX + " " + collX + " " + collWidth + " y : " + checkY + " " + collY + " " + collHeight);
+
+				// Compares the positionToCheck with the collision area
+				if ( checkX > collX && checkX < collX + collWidth && checkY > collY && checkY < collY + collHeight ) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
     return this;
 }

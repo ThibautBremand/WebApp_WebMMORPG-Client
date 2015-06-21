@@ -21,8 +21,80 @@
          "width":25,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":20,
+         "name":"Collisions",
+         "objects":[
+                {
+                 "height":107,
+                 "id":1,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":93,
+                 "x":676,
+                 "y":105
+                }, 
+                {
+                 "height":111,
+                 "id":2,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":94,
+                 "x":195,
+                 "y":9
+                }, 
+                {
+                 "height":115,
+                 "id":3,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":482,
+                 "y":454
+                }, 
+                {
+                 "height":113,
+                 "id":4,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":94,
+                 "x":35,
+                 "y":359
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":25,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":1,
+ "nextobjectid":6,
  "orientation":"orthogonal",
  "properties":
     {
