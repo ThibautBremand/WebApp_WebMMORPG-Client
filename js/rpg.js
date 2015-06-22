@@ -3,12 +3,7 @@ var joueur;
 
 var separator = "%:%";
 
-var mapsToDraw = new Array();
-mapsToDraw.push("troisieme");
-//mapsToDraw.push("sans-titre2");
-
-var map = new Map(mapsToDraw);
-map.loadLayers();
+var map;
 
 function drawRPG() {
 	var canvas = document.getElementById('canvas');
@@ -49,11 +44,9 @@ function drawRPG() {
 				}
 				break;
 			default : 
-				//alert(key);
 				// Si la touche ne nous sert pas, nous n'avons aucune raison de bloquer son comportement normal.
 				return true;
 		}
-		
 		return false;
 	}
 }

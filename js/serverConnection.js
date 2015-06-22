@@ -25,9 +25,10 @@ conn.onmessage = function(e) {
 
         // parses information and display character
         var currentChar = characters[0];
-
         $("#logs").append(currentChar.name + " just logged in !" + "</br>");
+
         map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+
 
         break;
     case "MOVE":
@@ -53,9 +54,12 @@ conn.onmessage = function(e) {
         alert(mess[1]);
         break;
     case "LAUNCH":
-        drawRPG();
+        //
         var currentChar = jQuery.parseJSON(mess[1]);
         joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        map = new Map(currentChar.map);
+        map.loadLayers();
+        drawRPG();
         map.addPersonnage(joueur);
         break;
     case "CHARSCONNECTED":

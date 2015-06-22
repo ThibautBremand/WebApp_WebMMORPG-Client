@@ -30,22 +30,22 @@ function Personnage(url, x, y, direction, nickname) {
 
 
 	this.drawCharacter = function(context) {
-		var frame = 0; // Numéro de l'image à prendre pour l'animation
-		var decalageX = 0, decalageY = 0; // Décalage à appliquer à la position du personnage
+		var frame = 0; // Image's number to take for the animation
+		var decalageX = 0, decalageY = 0; // Offset to apply to the character's position
 		if(this.etatAnimation >= DUREE_DEPLACEMENT) {
-			// Si le déplacement a atteint ou dépassé le temps nécéssaire pour s'effectuer, on le termine
+			// Aborts the movement if the timer is done
 			this.etatAnimation = -1;
 		} else if(this.etatAnimation >= 0) {
-		// On calcule l'image (frame) de l'animation à afficher
+		// Determines the image (frame) to display for the animation
 		frame = Math.floor(this.etatAnimation / DUREE_ANIMATION);
 		if(frame > 3) {
 			frame %= 4;
 		}
 		
-		// Nombre de pixels restant à parcourir entre les deux cases
+		// Pixels count left to proceed
 		var pixelsAParcourir = 32 - (32 * (this.etatAnimation / DUREE_DEPLACEMENT));
 		
-		// À partir de ce nombre, on définit le décalage en x et y.
+		// From this number, decides the offset for x & y
 		if(this.direction == DIRECTION.HAUT) {
 			decalageY = pixelsAParcourir;
 		} else if(this.direction == DIRECTION.BAS) {
@@ -56,7 +56,7 @@ function Personnage(url, x, y, direction, nickname) {
 			decalageX = -pixelsAParcourir;
 		}
 		
-		// On incrémente d'une frame
+		// One more frame
 		this.etatAnimation++;
 		}
 		/*
@@ -95,30 +95,35 @@ function Personnage(url, x, y, direction, nickname) {
 	};
 
 	this.move = function(direction, map, mainChar) {
-		// On ne peut pas se déplacer si un mouvement est déjà en cours !
+		// If a movement is already proceeding, refuses the movement
 		if ( mainChar ) {
 			if(this.etatAnimation >= 0) {
 				return false;
 			}
 		}
 
-		// On change la direction du personnage
+		// Changes the character's direction
 		this.direction = direction;
 			
-		// On vérifie que la case demandée est bien située dans la carte
-		var prochaineCase = this.getCoordonneesAdjacentes(direction);
-		if(prochaineCase.x < 0 || prochaineCase.y < 0 || prochaineCase.x >= map.width || prochaineCase.y >= map.height) {
-			// On retourne un booléen indiquant que le déplacement ne s'est pas fait, 
-			// Ça ne coute pas cher et ca peut toujours servir
+		var nextPos = this.getCoordonneesAdjacentes(direction);
+
+		// Checks if the next position is in the map
+		if(nextPos.x < 0 || nextPos.y < 0 || nextPos.x >= map.width || nextPos.y >= map.height) {
+			// returns false telling that the movement didn't proceed
+			return false;
+		}
+
+		// Checks if the next position is an obstacle
+		if ( map.isObstacle(nextPos) ) {
 			return false;
 		}
 		
-		// On commence l'animation
+		// Starts the animation
 		this.etatAnimation = 1;
 			
-		// On effectue le déplacement
-		this.x = prochaineCase.x;
-		this.y = prochaineCase.y;		
+		// Proceeds the movement
+		this.x = nextPos.x;
+		this.y = nextPos.y;		
 		return true;
 	};
 
