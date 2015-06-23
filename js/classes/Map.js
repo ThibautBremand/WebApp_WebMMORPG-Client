@@ -8,6 +8,7 @@ function Map(json) {
     this.characters = new Array();
     this.tilesets = new Array();
     this.collisions = new Array();
+    this.neighbors = new Array();
 
     // Loads the layers from the json files given
     this.loadLayers = function() {
@@ -28,6 +29,9 @@ function Map(json) {
 		for ( var i = 0; i < layers.length; ++i ) {
 			if ( layers[i].name == "Collisions" ) {
 				this.collisions = layers[i].objects;
+			}
+			else if ( layers[i].name.substr(0, 3) == "MAP" ) {
+				this.neighbors = layers[i];
 			}
 			else {
 				this.layers.push(layers[i].data);
@@ -101,7 +105,31 @@ function Map(json) {
 			}
 		}
 		return false;
-	}
+	};
+
+	// Detects if a position is a TP
+	this.isNeighbor = function ( joueur, direction ) {
+		var nextPos = joueur.getCoordonneesAdjacentes(direction);
+		if ( this.neighbors.objects.length > 0 ) {
+			for ( var i = 0; i < this.neighbors.objects.length; ++i ) {
+				var collWidth = this.neighbors.objects[i].width;
+				var collHeight = this.neighbors.objects[i].height;
+				var collX = this.neighbors.objects[i].x;
+				var collY = this.neighbors.objects[i].y;
+
+				var checkX = ( nextPos.x * tileSize ) + tileSize ;
+				var checkY = ( nextPos.y * tileSize ) + tileSize ;
+
+				// Compares the joueur's with the TP area
+				alert ( checkY  )
+				if ( checkX > collX && checkX < collX + collWidth && checkY > collY && checkY < collY + collHeight ) {
+					return (this.neighbors.name.substr(3, this.neighbors.name.length));
+				}
+			}
+		}
+		return "";
+	};
+
     return this;
 }
 

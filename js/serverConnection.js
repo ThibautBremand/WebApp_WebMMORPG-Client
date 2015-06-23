@@ -54,12 +54,22 @@ conn.onmessage = function(e) {
         alert(mess[1]);
         break;
     case "LAUNCH":
-        //
+        // When the user connects to the game
         var currentChar = jQuery.parseJSON(mess[1]);
         joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
         map = new Map(currentChar.map);
         map.loadLayers();
         drawRPG();
+        map.addPersonnage(joueur);
+        break;
+    case "CHANGEMAP":
+        // When the user changes map by teleporting
+        var currentChar = jQuery.parseJSON(mess[1]);
+        joueur.x = parseInt(currentChar.x);
+        joueur.y = parseInt(currentChar.y)
+
+        map = new Map(currentChar.map);
+        map.loadLayers();
         map.addPersonnage(joueur);
         break;
     case "CHARSCONNECTED":
