@@ -24,51 +24,38 @@ function drawRPG() {
 		
 		switch(key) {
 			case 38 : case 122 : case 119 : case 90 : case 87 : // Up arrow, z, w, Z, W
-				if ( joueur.move(DIRECTION.HAUT, map, true) ) {
-					if ( map.neighbors != null ) {
-						var isTP = map.isNeighbor(joueur, DIRECTION.HAUT);
-						if ( isTP != "" ) {
-							conn.send("TP" + separator + isTP + separator + DIRECTION.HAUT + separator + joueur.name);
-						}
-						else {
-							conn.send("MOVE" + separator + DIRECTION.HAUT + separator + joueur.name);
-						}
-					}
-					else {
-						conn.send("MOVE" + separator + DIRECTION.HAUT + separator + joueur.name);
-					}
-				}
+				proceedMovement(DIRECTION.HAUT);
 				break;
 			case 40 : case 115 : case 83 : // Down arrow, s, S
-				if ( joueur.move(DIRECTION.BAS, map, true) ) {
-					if ( map.neighbors != null ) {
-						var isTP = map.isNeighbor(joueur, DIRECTION.BAS);
-						if ( isTP != "" ) {
-							conn.send("TP" + separator + isTP + separator + DIRECTION.BAS + separator + joueur.name);
-						}
-						else {
-							conn.send("MOVE" + separator + DIRECTION.BAS + separator + joueur.name);
-						}
-					}
-					else {
-						conn.send("MOVE" + separator + DIRECTION.BAS + separator + joueur.name);
-					}
-				}
+				proceedMovement(DIRECTION.BAS);
 				break;
 			case 37 : case 113 : case 97 : case 81 : case 65 : // Left arrow, q, a, Q, A
-				if ( joueur.move(DIRECTION.GAUCHE, map, true) ) {
-					conn.send("MOVE" + separator + DIRECTION.GAUCHE + separator + joueur.name);
-				}
+				proceedMovement(DIRECTION.GAUCHE);
 				break;
 			case 39 : case 100 : case 68 : // Right arrow, d, D
-				if ( joueur.move(DIRECTION.DROITE, map, true) ) {
-					conn.send("MOVE" + separator + DIRECTION.DROITE + separator + joueur.name);
-				}
+				proceedMovement(DIRECTION.DROITE);
 				break;
 			default : 
 				// Si la touche ne nous sert pas, nous n'avons aucune raison de bloquer son comportement normal.
 				return true;
 		}
 		return false;
+	}
+}
+
+function proceedMovement(movement) {
+	if ( joueur.move(movement, map, true) ) {
+		if ( map.neighbors != null ) {
+			var isTP = map.isNeighbor(joueur, movement);
+			if ( isTP != "" ) {
+				conn.send("TP" + separator + isTP + separator + movement + separator + joueur.name);
+			}
+			else {
+				conn.send("MOVE" + separator + movement + separator + joueur.name);
+			}
+		}
+		else {
+			conn.send("MOVE" + separator + movement + separator + joueur.name);
+		}
 	}
 }

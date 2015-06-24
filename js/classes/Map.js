@@ -122,22 +122,25 @@ function Map(json) {
 					var checkY = ( nextPos.y * tileSize ) + tileSize ;
 
 					// Compares the joueur's with the TP area
-
-					//alert (  " checkY : " + checkY + " collY + collHeight " + yolo)
-
 					var yolo = collX + collWidth
 					var yolo2 = collY + collHeight
 					if (direction == DIRECTION.HAUT) {
-						//alert (checkX > collX)
-						//alert (checkX < collX + collWidth)
-						alert ("checkY >= collY " + checkY + " - " + collY)
-						//alert (checkY < collY + collHeight)
 						if ( checkX > collX && checkX < collX + collWidth && checkY >= collY && checkY < collY + collHeight ) {
 							return (this.neighbors[j].name.substr(3, this.neighbors[j].name.length));
 						}
 					}
 					else if (direction == DIRECTION.BAS) {
 						if ( checkX > collX && checkX < collX + collWidth && checkY - collHeight == collY + collHeight) {
+							return (this.neighbors[j].name.substr(3, this.neighbors[j].name.length));
+						}
+					}
+					else if (direction == DIRECTION.GAUCHE) {
+						if ( checkX == collX && checkX < collX + collWidth && checkY >= collY && checkY < collY + collHeight ) {
+							return (this.neighbors[j].name.substr(3, this.neighbors[j].name.length));
+						}
+					}
+					else if (direction == DIRECTION.DROITE) {
+						if ( checkX - collWidth == collX + collWidth  && checkY >= collY && checkY < collY + collHeight ) {
 							return (this.neighbors[j].name.substr(3, this.neighbors[j].name.length));
 						}
 					}
