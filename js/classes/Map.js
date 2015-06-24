@@ -31,7 +31,7 @@ function Map(json) {
 				this.collisions = layers[i].objects;
 			}
 			else if ( layers[i].name.substr(0, 3) == "MAP" ) {
-				this.neighbors = layers[i];
+				this.neighbors.push(layers[i]);
 			}
 			else {
 				this.layers.push(layers[i].data);
@@ -110,20 +110,37 @@ function Map(json) {
 	// Detects if a position is a TP
 	this.isNeighbor = function ( joueur, direction ) {
 		var nextPos = joueur.getCoordonneesAdjacentes(direction);
-		if ( this.neighbors.objects.length > 0 ) {
-			for ( var i = 0; i < this.neighbors.objects.length; ++i ) {
-				var collWidth = this.neighbors.objects[i].width;
-				var collHeight = this.neighbors.objects[i].height;
-				var collX = this.neighbors.objects[i].x;
-				var collY = this.neighbors.objects[i].y;
+		for ( var j = 0; j < this.neighbors.length; ++j ) {
+			if ( this.neighbors[j].objects.length > 0 ) {
+				for ( var i = 0; i < this.neighbors[j].objects.length; ++i ) {
+					var collWidth = this.neighbors[j].objects[i].width;
+					var collHeight = this.neighbors[j].objects[i].height;
+					var collX = this.neighbors[j].objects[i].x;
+					var collY = this.neighbors[j].objects[i].y;
 
-				var checkX = ( nextPos.x * tileSize ) + tileSize ;
-				var checkY = ( nextPos.y * tileSize ) + tileSize ;
+					var checkX = ( nextPos.x * tileSize ) + tileSize ;
+					var checkY = ( nextPos.y * tileSize ) + tileSize ;
 
-				// Compares the joueur's with the TP area
-				alert ( checkY  )
-				if ( checkX > collX && checkX < collX + collWidth && checkY > collY && checkY < collY + collHeight ) {
-					return (this.neighbors.name.substr(3, this.neighbors.name.length));
+					// Compares the joueur's with the TP area
+
+					//alert (  " checkY : " + checkY + " collY + collHeight " + yolo)
+
+					var yolo = collX + collWidth
+					var yolo2 = collY + collHeight
+					if (direction == DIRECTION.HAUT) {
+						//alert (checkX > collX)
+						//alert (checkX < collX + collWidth)
+						alert ("checkY >= collY " + checkY + " - " + collY)
+						//alert (checkY < collY + collHeight)
+						if ( checkX > collX && checkX < collX + collWidth && checkY >= collY && checkY < collY + collHeight ) {
+							return (this.neighbors[j].name.substr(3, this.neighbors[j].name.length));
+						}
+					}
+					else if (direction == DIRECTION.BAS) {
+						if ( checkX > collX && checkX < collX + collWidth && checkY - collHeight == collY + collHeight) {
+							return (this.neighbors[j].name.substr(3, this.neighbors[j].name.length));
+						}
+					}
 				}
 			}
 		}
