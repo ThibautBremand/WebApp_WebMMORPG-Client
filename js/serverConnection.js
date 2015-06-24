@@ -24,7 +24,8 @@ conn.onmessage = function(e) {
         //todo: let the user choose his character
 
         // parses information and display character
-        var currentChar = characters[0];
+        //var currentChar = characters[0];
+        var currentChar = characters;
         $("#logs").append(currentChar.name + " just logged in !" + "</br>");
 
         map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
@@ -40,6 +41,16 @@ conn.onmessage = function(e) {
     	break;
     case "LEAVE":
         if ( mess[2] != null ) {
+            var charToDel = jQuery.parseJSON(mess[3]);
+            for ( var i = 0; i < map.characters.length; ++i ) {
+                if ( map.characters[i].name == charToDel.name ){
+                    map.characters.splice(i, 1);
+                }
+            }
+        }
+        break;
+    case "LOGOUT":
+        if ( mess[2] != null ) {
             $("#logs").append(mess[2] + " left !</br>");
 
             var charToDel = jQuery.parseJSON(mess[3]);
@@ -54,12 +65,22 @@ conn.onmessage = function(e) {
         alert(mess[1]);
         break;
     case "LAUNCH":
-        //
+        // When the user connects to the game
         var currentChar = jQuery.parseJSON(mess[1]);
         joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
         map = new Map(currentChar.map);
         map.loadLayers();
         drawRPG();
+        map.addPersonnage(joueur);
+        break;
+    case "CHANGEMAP":
+        // When the user changes map by teleporting
+        var currentChar = jQuery.parseJSON(mess[1]);
+        joueur.x = parseInt(currentChar.x);
+        joueur.y = parseInt(currentChar.y)
+
+        map = new Map(currentChar.map);
+        map.loadLayers();
         map.addPersonnage(joueur);
         break;
     case "CHARSCONNECTED":
