@@ -8,9 +8,17 @@ function message(user, action, param){
 	}
 }
 
-var nickname = prompt('Enter your nickname','guest');
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
-var conn = new WebSocket('ws://localhost:8080' + '?' + nickname);
+//var nickname = prompt('Enter your nickname','guest');
+var nickname = getParameterByName("char");
+
+var conn = new WebSocket('ws://localhost:8080' + '?' + nickname + "&" + getParameterByName("user"));
 
 conn.onopen = function(e) {
 	$("#logs").append("Connection established!</br>");
