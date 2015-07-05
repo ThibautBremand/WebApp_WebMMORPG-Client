@@ -8,15 +8,6 @@ function message(user, action, param){
     }
 }
 
-/*function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}*/
-
-//var nickname = prompt('Enter your nickname','guest');
-//var nickname = getParameterByName("char");
 var pass = prompt('Enter your password','');
 var conn = new WebSocket('ws://localhost:8080' + '?' + nickname + "&" + user + "&" + pass);
 
@@ -27,18 +18,17 @@ conn.onopen = function(e) {
 conn.onmessage = function(e) {
     var mess = e.data.split("%:%");
     switch(mess[0]) {
+    // When a user connects to the game
     case "ENTER":
-        var characters = jQuery.parseJSON(mess[2]);
-        //todo: let the user choose his character
-
         // parses information and display character
-        //var currentChar = characters[0];
-        var currentChar = characters;
-        $("#logs").append(currentChar.name + " just logged in !" + "</br>");
-
+        var currentChar = jQuery.parseJSON(mess[3]);
+        $("#logs").append(mess[2] + " (" + currentChar.name + ") just logged in !" + "</br>");
         map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
-
-
+        break;
+    case "COMING":
+        // parses information and display character
+        var currentChar = jQuery.parseJSON(mess[2]);
+        map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
         break;
     case "MOVE":
         for ( var i = 0; i < map.characters.length; ++i ) {
@@ -59,8 +49,8 @@ conn.onmessage = function(e) {
         break;
     case "LOGOUT":
         if ( mess[2] != null ) {
-            $("#logs").append(mess[2] + " left !</br>");
-
+            var currentChar = jQuery.parseJSON(mess[3]);
+            $("#logs").append(mess[2] + " (" + currentChar.name + ") left !</br>");
             var charToDel = jQuery.parseJSON(mess[3]);
             for ( var i = 0; i < map.characters.length; ++i ) {
                 if ( map.characters[i].name == charToDel.name ){
