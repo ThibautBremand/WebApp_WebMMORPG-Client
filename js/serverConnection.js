@@ -21,8 +21,8 @@ conn.onmessage = function(e) {
     // When a user connects to the game
     case "ENTER":
         // parses information and display character
-        var currentChar = jQuery.parseJSON(mess[2]);
-        $("#logs").append(currentChar.name + " just logged in !" + "</br>");
+        var currentChar = jQuery.parseJSON(mess[3]);
+        $("#logs").append(mess[2] + " (" + currentChar.name + ") just logged in !" + "</br>");
         map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
         break;
     case "COMING":
@@ -49,7 +49,8 @@ conn.onmessage = function(e) {
         break;
     case "LOGOUT":
         if ( mess[2] != null ) {
-            $("#logs").append(mess[2] + " left !</br>");
+            var currentChar = jQuery.parseJSON(mess[3]);
+            $("#logs").append(mess[2] + " (" + currentChar.name + ") left !</br>");
             var charToDel = jQuery.parseJSON(mess[3]);
             for ( var i = 0; i < map.characters.length; ++i ) {
                 if ( map.characters[i].name == charToDel.name ){
