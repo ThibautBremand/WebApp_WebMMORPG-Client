@@ -1,27 +1,27 @@
 function message(user, action, param){
-	this.user = user;
-	this.action = action;
-	this.param = param;
+    this.user = user;
+    this.action = action;
+    this.param = param;
 
-	this.toString = function() {
-		return this.user + ":" + this.action + ":" + this.param;
-	}
+    this.toString = function() {
+        return this.user + ":" + this.action + ":" + this.param;
+    }
 }
 
-function getParameterByName(name) {
+/*function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
+}*/
 
 //var nickname = prompt('Enter your nickname','guest');
-var nickname = getParameterByName("char");
-
-var conn = new WebSocket('ws://localhost:8080' + '?' + nickname + "&" + getParameterByName("user"));
+//var nickname = getParameterByName("char");
+var pass = prompt('Enter your password','');
+var conn = new WebSocket('ws://localhost:8080' + '?' + nickname + "&" + user + "&" + pass);
 
 conn.onopen = function(e) {
-	$("#logs").append("Connection established!</br>");
+    $("#logs").append("Connection established!</br>");
 };
 
 conn.onmessage = function(e) {
@@ -46,7 +46,7 @@ conn.onmessage = function(e) {
                 map.characters[i].move(mess[1], map, false)
             }
         }
-    	break;
+        break;
     case "LEAVE":
         if ( mess[2] != null ) {
             var charToDel = jQuery.parseJSON(mess[3]);
@@ -96,7 +96,7 @@ conn.onmessage = function(e) {
         map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
     default:
         break;
-	} 
+    } 
 };
 
 function keyTreatment(evenement){
