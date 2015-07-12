@@ -23,7 +23,7 @@ conn.onmessage = function(e) {
         // parses information and display character
         var currentChar = jQuery.parseJSON(mess[3]);
         $("#logs").append(mess[2] + " (" + currentChar.name + ") just logged in !" + "</br>");
-        map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        //map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
         break;
     case "COMING":
         // parses information and display character

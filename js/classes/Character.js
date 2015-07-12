@@ -65,6 +65,7 @@ function Personnage(url, x, y, direction, nickname) {
 		 * frame, decalageX et decalageY
 		 */
 		
+		// TODO : balayer depuis un JSON d'attributs pour le char et afficher les layers sur le canvas
 		context.drawImage(
 			this.image, 
 			this.largeur * frame, this.direction * this.hauteur, // Point d'origine du rectangle source à prendre dans notre image
