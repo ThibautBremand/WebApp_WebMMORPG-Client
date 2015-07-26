@@ -1,12 +1,15 @@
 var DIRECTION = {
-	"BAS"    : 0,
+	"BAS"    : 2,
 	"GAUCHE" : 1,
-	"DROITE" : 2,
-	"HAUT"   : 3
+	"DROITE" : 3,
+	"HAUT"   : 0
 }
 
 var DUREE_ANIMATION = 4;
 var DUREE_DEPLACEMENT = 15;
+var TILESET_WIDTH = 13;
+var TILESET_HEIGHT = 21;
+var ROW_MOVEMENT = 8;
 
 function Personnage(url, x, y, direction, nickname) {
 	this.x = x; // (cases)
@@ -23,8 +26,9 @@ function Personnage(url, x, y, direction, nickname) {
 			throw "Error : Cannot load the following sprite \"" + url + "\".";
 		
 		// Character's size
-		this.characterReference.largeur = this.width / 4;
-		this.characterReference.hauteur = this.height / 4;
+		//alert ( "width : " + (this.width / 21) + " - height : " +   (this.height / 13))
+		this.characterReference.largeur = this.width / TILESET_WIDTH;
+		this.characterReference.hauteur = this.height / TILESET_HEIGHT;
 	}
 	this.image.src = "sprites/" + url;
 
@@ -68,7 +72,7 @@ function Personnage(url, x, y, direction, nickname) {
 		// TODO : balayer depuis un JSON d'attributs pour le char et afficher les layers sur le canvas
 		context.drawImage(
 			this.image, 
-			this.largeur * frame, this.direction * this.hauteur, // Point d'origine du rectangle source à prendre dans notre image
+			this.largeur * frame, this.direction * this.hauteur + this.hauteur * ROW_MOVEMENT, // Point d'origine du rectangle source à prendre dans notre image
 			this.largeur, this.hauteur, // Taille du rectangle source (c'est la taille du personnage)
 			// Point de destination (dépend de la taille du personnage)
 			(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY,

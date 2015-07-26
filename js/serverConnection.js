@@ -65,7 +65,9 @@ conn.onmessage = function(e) {
     case "LAUNCH":
         // When the user connects to the game
         var currentChar = jQuery.parseJSON(mess[1]);
-        joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        //joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        joueur = new Personnage("Universal-LPC-Spritesheet-Character-Generator/Universal-LPC-spritesheet/body/male/light.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        
         map = new Map(currentChar.map);
         map.loadLayers();
         drawRPG();
