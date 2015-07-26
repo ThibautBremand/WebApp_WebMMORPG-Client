@@ -79,7 +79,8 @@ function Personnage(url, x, y, direction, nickname) {
 			this.largeur, this.hauteur // Taille du rectangle destination (c'est la taille du personnage)
 		);
 		var nicklength = this.name.length;
-		context.fillText(this.name,(this.x * 32) - nicklength,(this.y * 32) - 25);
+		context.fillText(this.name,(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY + 5);
+
 	};
 
 	this.getCoordonneesAdjacentes = function(direction) {
