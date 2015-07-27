@@ -11,7 +11,7 @@ var TILESET_WIDTH = 13;
 var TILESET_HEIGHT = 21;
 var ROW_MOVEMENT = 8;
 
-function Personnage(url, x, y, direction, nickname) {
+function Personnage(x, y, direction, nickname) {
 	this.x = x; // (cases)
 	this.y = y; // (cases)
 	this.direction = direction;
@@ -21,7 +21,7 @@ function Personnage(url, x, y, direction, nickname) {
 	// Loads the image in the image attribute
 	this.image = new Image();
 	this.image.characterReference = this;
-	this.image.onload = function() {
+	/*this.image.onload = function() {
 		if(!this.complete) 
 			throw "Error : Cannot load the following sprite \"" + url + "\".";
 		
@@ -30,7 +30,7 @@ function Personnage(url, x, y, direction, nickname) {
 		this.characterReference.largeur = this.width / TILESET_WIDTH;
 		this.characterReference.hauteur = this.height / TILESET_HEIGHT;
 	}
-	this.image.src = "sprites/" + url;
+	this.image.src = "sprites/" + url;*/
 
 
 	this.drawCharacter = function(context) {
@@ -70,14 +70,22 @@ function Personnage(url, x, y, direction, nickname) {
 		 */
 		
 		// TODO : balayer depuis un JSON d'attributs pour le char et afficher les layers sur le canvas
-		context.drawImage(
-			this.image, 
-			this.largeur * frame, this.direction * this.hauteur + this.hauteur * ROW_MOVEMENT, // Point d'origine du rectangle source à prendre dans notre image
-			this.largeur, this.hauteur, // Taille du rectangle source (c'est la taille du personnage)
-			// Point de destination (dépend de la taille du personnage)
-			(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY,
-			this.largeur, this.hauteur // Taille du rectangle destination (c'est la taille du personnage)
-		);
+		if ( this.image != null && this.image.width > 0 ) {
+			this.image.characterReference.largeur = this.image.width / TILESET_WIDTH;
+		}
+		if ( this.image != null && this.image.height > 0 ) {
+			this.image.characterReference.hauteur = this.image.height / TILESET_HEIGHT;
+		}
+		if ( this.image.width > 0 &&  this.image.height > 0) {
+			context.drawImage(
+				this.image, 
+				this.largeur * frame, this.direction * this.hauteur + this.hauteur * ROW_MOVEMENT, // Point d'origine du rectangle source à prendre dans notre image
+				this.largeur, this.hauteur, // Taille du rectangle source (c'est la taille du personnage)
+				// Point de destination (dépend de la taille du personnage)
+				(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY,
+				this.largeur, this.hauteur // Taille du rectangle destination (c'est la taille du personnage)
+			);
+		}
 		var nicklength = this.name.length;
 		context.fillText(this.name,(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY + 5);
 

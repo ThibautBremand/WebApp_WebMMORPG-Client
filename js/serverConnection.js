@@ -28,7 +28,10 @@ conn.onmessage = function(e) {
     case "COMING":
         // parses information and display character
         var currentChar = jQuery.parseJSON(mess[2]);
-        map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        //map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        var newChar = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        generate(newChar, currentChar.tileFormula);
+        map.addPersonnage(newChar);
         break;
     case "MOVE":
         for ( var i = 0; i < map.characters.length; ++i ) {
@@ -66,8 +69,10 @@ conn.onmessage = function(e) {
         // When the user connects to the game
         var currentChar = jQuery.parseJSON(mess[1]);
         //joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
-        joueur = new Personnage("Universal-LPC-Spritesheet-Character-Generator/Universal-LPC-spritesheet/body/male/light.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
-        
+        //joueur = new Personnage("Universal-LPC-Spritesheet-Character-Generator/Universal-LPC-spritesheet/body/male/light.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        joueur = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        generate(joueur, currentChar.tileFormula);
+
         map = new Map(currentChar.map);
         map.loadLayers();
         drawRPG();
@@ -85,7 +90,10 @@ conn.onmessage = function(e) {
         break;
     case "CHARSCONNECTED":
         var currentChar = jQuery.parseJSON(mess[2]);
-        map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        //map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        var newChar = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        generate(newChar, currentChar.tileFormula);
+        map.addPersonnage(newChar);
     default:
         break;
     } 
