@@ -135,7 +135,12 @@ function redraw(char, canvasChar) {
                 //var img = getImage($this.data("file_male_" + params.body), char, canvasChar);
                 var img = getImage(ctx, "body/male/" + params.body + ".png", char, canvasChar, "body/male/" + params.body + ".png", function() {
                     drawImage(ctx, img);
+                    console.log("Body drawn")
                     char.image.src = canvasChar.toDataURL('image/png');
+                    connectedCharsToDraw.splice(0, 1);
+                    if ( connectedCharsToDraw.length > 0 ) {
+                        generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
+                    }
                 });
                 //getImage(ctx, img);
             //}
@@ -153,12 +158,22 @@ function redraw(char, canvasChar) {
                 /* Body */
                 var img = getImage(ctx, "body/female/" + params.body + ".png", char, canvasChar, "body/female/" + params.body + ".png", function() {
                     drawImage(ctx, img);
+                    console.log("Body drawn")
                     drawEyes(ctx, char, canvasChar, function() {
+                        console.log("Eyes drawn")
                         drawHair(ctx, char, canvasChar, function() {
+                            console.log("Hair drawn")
                             drawClothes(ctx, char, canvasChar, function() {
+                                console.log("Clothes drawn")
                                 drawBracelet(ctx, char, canvasChar, function() {
+                                    console.log("Bracelet drawn")
                                     drawBracers(ctx, char, canvasChar, function() {
+                                        console.log("Bracers drawn")
                                         char.image.src = canvasChar.toDataURL('image/png');
+                                        connectedCharsToDraw.splice(0, 1);
+                                        if ( connectedCharsToDraw.length > 0 ) {
+                                            generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
+                                        }
                                     });
                                 });
                             });

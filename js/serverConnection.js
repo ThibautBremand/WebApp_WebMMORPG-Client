@@ -1,3 +1,5 @@
+var connectedCharsToDraw = Array();
+
 function message(user, action, param){
     this.user = user;
     this.action = action;
@@ -71,8 +73,11 @@ conn.onmessage = function(e) {
         //joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
         //joueur = new Personnage("Universal-LPC-Spritesheet-Character-Generator/Universal-LPC-spritesheet/body/male/light.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
         joueur = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
-        generate(joueur, currentChar.tileFormula);
-
+        connectedCharsToDraw.push([joueur, currentChar.tileFormula]);
+        //generate(joueur, currentChar.tileFormula);
+        if ( connectedCharsToDraw.length == 1 ) {
+           generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]); 
+        } 
         map = new Map(currentChar.map);
         map.loadLayers();
         drawRPG();
@@ -92,7 +97,12 @@ conn.onmessage = function(e) {
         var currentChar = jQuery.parseJSON(mess[2]);
         //map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
         var newChar = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
-        generate(newChar, currentChar.tileFormula);
+        connectedCharsToDraw.push([newChar, currentChar.tileFormula]);
+        if ( connectedCharsToDraw.length == 1 ) {
+           generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]); 
+        } 
+        console.log("charsconnected received ")
+        //generate(newChar, currentChar.tileFormula);
         map.addPersonnage(newChar);
     default:
         break;
