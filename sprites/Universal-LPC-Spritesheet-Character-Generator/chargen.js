@@ -135,7 +135,7 @@ function redraw(char, canvasChar) {
                 //var img = getImage($this.data("file_male_" + params.body), char, canvasChar);
                 var img = getImage(ctx, "body/male/" + params.body + ".png", char, canvasChar, "body/male/" + params.body + ".png", function() {
                     drawImage(ctx, img);
-                    char.image.src = canvasChar.toDataURL('image/bmp');
+                    char.image.src = canvasChar.toDataURL('image/png');
                 });
                 //getImage(ctx, img);
             //}
@@ -158,7 +158,7 @@ function redraw(char, canvasChar) {
                             drawClothes(ctx, char, canvasChar, function() {
                                 drawBracelet(ctx, char, canvasChar, function() {
                                     drawBracers(ctx, char, canvasChar, function() {
-                                        char.image.src = canvasChar.toDataURL('image/bmp');
+                                        char.image.src = canvasChar.toDataURL('image/png');
                                     });
                                 });
                             });
@@ -372,7 +372,6 @@ function drawBracelet(ctx, char, canvasChar, callback) {
         callback();
     }
 }
-
 
 function drawBracers(ctx, char, canvasChar, callback) {
     if (params.bracers != null) {
