@@ -156,14 +156,14 @@ function redraw(char, canvasChar) {
                 //var img = getImage($this.data("file_female_" + params.body), char, canvasChar);
                 
                 /* Body */
-                var img = getImage(ctx, "body/female/" + params.body + ".png", char, canvasChar, "body/female/" + params.body + ".png", function() {
+                var img = getImage(ctx, "body/female/" + params.body + ".png", char, canvasChar, function() {
                     drawImage(ctx, img);
                     console.log("Body drawn")
-                    drawEyes(ctx, char, canvasChar, function() {
+                    drawEyes(ctx, char, canvasChar, "female", function() {
                         console.log("Eyes drawn")
-                        drawHair(ctx, char, canvasChar, function() {
+                        drawHair(ctx, char, canvasChar, "female", function() {
                             console.log("Hair drawn")
-                            drawClothes(ctx, char, canvasChar, function() {
+                            drawClothes(ctx, char, canvasChar, "female", function() {
                                 console.log("Clothes drawn")
                                 drawBracelet(ctx, char, canvasChar, function() {
                                     console.log("Bracelet drawn")
@@ -330,10 +330,10 @@ function redraw(char, canvasChar) {
 
 }
 
-function drawEyes(ctx, char, canvasChar, callback) {
+function drawEyes(ctx, char, canvasChar, sex, callback) {
     /* Eyes */
     if (params.eyes != null) {
-        var img = getImage(ctx, "body/female/eyes/" + params.eyes + ".png", char, canvasChar, "body/female/eyes/" + params.eyes + ".png", function() {
+        var img = getImage(ctx, "body/" + sex + "/eyes/" + params.eyes + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
         });
@@ -343,31 +343,88 @@ function drawEyes(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawHair(ctx, char, canvasChar, callback) {
+function drawHair(ctx, char, canvasChar, sex, callback) {
     if (params.hair != null) {
         var res = params.hair.split("_");
-        var img = getImage(ctx, "hair/female/" + res[0] + "/" + res[1] + ".png", char, canvasChar, "hair/female/" + res[0] + "/" + res[1] + ".png", function() {
+        var img = getImage(ctx, "hair/" + sex + "/" + res[0] + "/" + res[1] + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
         });
     }
+    else {
+        callback();
+    }
 }
 
-function drawClothes(ctx, char, canvasChar, callback) {
+function drawClothes(ctx, char, canvasChar, sex, callback) {
     if (params.clothes != null) {
-        if ( params.clothes == "brown_pirate" || 
-        params.clothes == "brown_sleeveless" || 
-        params.clothes == "maroon_pirate" || 
-        params.clothes == "maroon_sleeveless" || 
-        params.clothes == "teal_pirate" || 
-        params.clothes == "teal_sleeveless" || 
-        params.clothes == "white_pirate" || 
-        params.clothes ==  "white_sleeveless") {
-            var img = getImage(ctx, "torso/shirts/sleeveless/female/" + params.clothes + ".png", char, canvasChar, "torso/shirts/sleeveless/female/" + params.clothes + ".png", function() {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.clothes.split("_");
+        switch(res[0]) {
+            // Mail
+            case "mail":
+                if (params.clothes == "chain") {
+                    imgUrl = "torso/chain/";
+                    imgName = "mail_" + sex;
+                }
+                break;             
+            // Clothes
+            case "clothes":
+                if (params.clothes == "dress_sash") {
+                    imgUrl = "torso/dress_female/";
+                    imgName = "dress_w_sash_female";
+                }
+                break; 
+            // Gown
+            case "gown":
+                if (params.clothes == "underdress") {
+                    imgUrl = "torso/dress_female/";
+                    imgName = "underdress";
+                }
+                if (params.clothes == "overskirt") {
+                    imgUrl = "torso/dress_female/";
+                    imgName = "overskirt";
+                }
+                if (params.clothes == "blue-vest") {
+                    imgUrl = "torso/dress_female/";
+                    imgName = "blue-vest";
+                }
+                break; 
+            // Robe
+            case "robe":
+                imgUrl = "torso/robes_female_no_th-sh/";
+                imgName = res[1];
+                break;            
+            // Shirts
+            case "pirate":
+                imgUrl = "torso/shirts/sleeveless/" + sex + "/";
+                imgName = res[1] + "_" + res[0];
+                break;
+            case "sleeveless":
+                imgUrl = "torso/shirts/sleeveless/" + sex + "/";
+                imgName = res[1] + "_" + res[0];
+                break;
+            case "longsleeve":
+                imgUrl = "torso/shirts/longsleeve/" + sex + "/";
+                imgName = res[1] + "_" + res[0];
+                break;
+            // Tunics
+            case "tunic":
+                imgUrl = "torso/tunics/" + sex + "/";
+                imgName = res[1] + "_" + res[0];
+                break;
+        }
+
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
                 drawImage(ctx, img);
                 callback();
             });
-        }
+        }  
+        else {
+            callback();
+        } 
     }
     else {
         callback();
@@ -377,7 +434,7 @@ function drawClothes(ctx, char, canvasChar, callback) {
 function drawBracelet(ctx, char, canvasChar, callback) {
     if (params.bracelet != null) {
         if (params.bracelet == "on") {
-            var img = getImage(ctx, "hands/bracelets/bracelet.png", char, canvasChar, "hands/bracelets/bracelet.png", function() {
+            var img = getImage(ctx, "hands/bracelets/bracelet.png", char, canvasChar, function() {
                 drawImage(ctx, img);
                 callback();
             });
@@ -394,16 +451,42 @@ function drawBracers(ctx, char, canvasChar, callback) {
         params.bracers == "leather_bracers_female" ||
         params.bracers == "white_cloth_bandages" ||
         params.bracers == "white_cloth_bracers" ) {
-            var img = getImage(ctx, "hands/bracers/female/" + params.bracers + ".png", char, canvasChar, "hands/bracers/female/" + params.bracers + ".png", function() {
+            var img = getImage(ctx, "hands/bracers/female/" + params.bracers + ".png", char, canvasChar, function() {
                 drawImage(ctx, img);
                 callback();
             });
         }
+        else {
+            callback();
+        }
+    }
+    else {
+        callback();
     }
 }
 
+/*drawTrucs
 
-function getImage(ctx, imgRef, char, canvasChar, str, callback) {
+            // Chest
+            case "chest":
+                    imgUrl = "torso/" + res[1] + "/";
+                    imgName = "chest_" + sex;
+                    break;
+            // Shoulders
+            case "shoulders":
+                    imgUrl = "torso/" + res[1] + "/";
+                    imgName = "spikes_" + sex;
+                    break; 
+            // Spikes
+            case "spikes":
+                    imgUrl = "torso/" + res[1] + "/";
+                    imgName = "spikes_" + sex;
+                    break;   
+
+*/
+
+
+function getImage(ctx, imgRef, char, canvasChar, callback) {
     //if (images[imgRef]) {}
         //return images[imgRef];
     //else {
