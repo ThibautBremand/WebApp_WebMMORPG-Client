@@ -156,19 +156,30 @@ function redraw(char, canvasChar) {
                 //var img = getImage($this.data("file_female_" + params.body), char, canvasChar);
                 
                 /* Body */
-                var img = getImage(ctx, "body/female/" + params.body + ".png", char, canvasChar, function() {
-                    drawImage(ctx, img);
+            var img = getImage(ctx, "body/female/" + params.body + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                drawEars(ctx, char, canvasChar, "female", function() {
+
                     drawEyes(ctx, char, canvasChar, "female", function() {
-                        drawHair(ctx, char, canvasChar, "female", function() {
-                            drawClothes(ctx, char, canvasChar, "female", function() {
-                                drawBracelet(ctx, char, canvasChar, function() {
-                                    drawBracers(ctx, char, canvasChar, function() {
-                                        drawGloves(ctx, char, canvasChar, function() {
-                                            char.image.src = canvasChar.toDataURL('image/png');
-                                            connectedCharsToDraw.splice(0, 1);
-                                            if ( connectedCharsToDraw.length > 0 ) {
-                                                generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
-                                            }
+
+                        drawNose(ctx, char, canvasChar, "female", function() {
+
+                            drawHair(ctx, char, canvasChar, "female", function() {
+
+                                drawClothes(ctx, char, canvasChar, "female", function() {
+
+                                    drawBracelet(ctx, char, canvasChar, function() {
+
+                                        drawBracers(ctx, char, canvasChar, function() {
+
+                                            drawGloves(ctx, char, canvasChar, function() {
+
+                                                char.image.src = canvasChar.toDataURL('image/png');
+                                                connectedCharsToDraw.splice(0, 1);
+                                                if ( connectedCharsToDraw.length > 0 ) {
+                                                    generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
+                                                }
+                                            });
                                         });
                                     });
                                 });
@@ -176,6 +187,7 @@ function redraw(char, canvasChar) {
                         });
                     });
                 });
+            });
         }
                     /* Hair */
                     /*if (params.hair != null) {
@@ -324,6 +336,38 @@ function redraw(char, canvasChar) {
         cptDraw ++;
     }*/
 
+}
+
+function drawEars(ctx, char, canvasChar, sex, callback) {
+    var skinColor = "";
+    if ( params.body != null ) {
+        skinColor = params.body;
+    }
+    else {
+        skinColor = "light";
+    }
+    if (params.ears != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.ears.split("_");
+        switch(res[0]) {
+            case "big":
+                imgUrl = "body/" + sex + "/ears/";
+                imgName = "bigears_" + skinColor;
+                break; 
+            case "elven":
+                imgUrl = "body/" + sex + "/ears/";
+                imgName = "elvenears_" + skinColor;
+                break; 
+        }
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
 }
 
 function drawEyes(ctx, char, canvasChar, sex, callback) {
