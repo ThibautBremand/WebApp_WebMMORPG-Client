@@ -937,6 +937,169 @@ function drawShoes(ctx, char, canvasChar, callback) {
     }
 }
 
+function drawBelt(ctx, char, canvasChar, callback) {
+    if (params.belt != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.belt.split("_");
+        if ( res[0] == "leather" ) {
+            imgUrl = "belt/leather/" + sex + "/";
+            imgName = "leather_" + sex;
+            break;
+        }
+        else if ( res[0] == "cloth" ) {
+            if ( res[1] == "teal" && sex == "female" ) {
+                imgUrl = "belt/cloth/" + sex + "/";
+                imgName = res[1] + "_cloth_" + sex;
+                break;
+            }
+            else {
+                imgUrl = "belt/cloth/" + sex + "/";
+                imgName = "teal2_cloth_" + sex;
+                break;
+            }
+        }
+        else {
+            imgUrl = "belt/cloth/" + sex + "/";
+            imgName = res[1] + "_" + sex + "_no_th-sh.png";
+            break;
+        }
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawBuckle(ctx, char, canvasChar, callback) {
+    if (params.buckle != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.buckle.split("_");
+
+        imgUrl = "belt/buckles_" + sex + "_no_th-sh/";
+        imgName = res[0];
+        break;
+
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawNecklace(ctx, char, canvasChar, callback) {
+    if (params.necklace != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.necklace.split("_");
+
+        imgUrl = "accessories/necklaces_" + sex + "_ no_th-sh/";
+        imgName = res[0];
+        break;
+
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawCapeacc(ctx, char, canvasChar, callback) {
+    if (params.capeacc != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.capeacc.split("_");
+        if ( res[0] == "clip" ) {
+            imgUrl = "accessories/neck/capeclip/" + sex + "/";
+            imgName = "capeclip_" + res[1];
+            break;
+        }
+        else if ( res[0] == "tie" ) {
+            imgUrl = "accessories/neck/capetie/" + sex + "/";
+            imgName = "capetie_" + res[1];
+            break;
+        }
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawHat(ctx, char, canvasChar, callback) {
+    if (params.hat != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.hat.split("_");
+        if ( res[0] == "bandana" ) {
+            imgUrl = "head/bandanas/" + sex + "/";
+            imgName = res[1];
+            break;
+        }
+        else if ( res[0] == "cap" ) {
+            imgUrl = "head/caps/" + sex + "/";
+            imgName = res[1] + "_cap_" + sex;
+            break;
+        }
+        else if ( res[0] == "chain" ) {
+            imgUrl = "head/helms/" + sex + "/"
+            imgName = "chainhat_" + sex;
+            break;
+        }
+        else if ( res[0] == "hood" ) {
+            imgUrl = "head/hoods/" + sex + "/";
+            imgName = res[1] + "_hood_" + sex;
+            break;
+        }
+        else if ( res[0] == "helmet" ) {
+            imgUrl = "head/helms/" + sex + "/";
+            imgName = res[1] + "_helm_" + sex;
+            break;
+        }
+        else if ( res[0] == "tiara" ) {
+            imgUrl = "head/tiaras_" + sex + "/";
+            imgName = res[1];
+            break;
+        }
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawWeapon(ctx, char, canvasChar, callback) {
+    // todo
+}
+
+function drawAmmo(ctx, char, canvasChar, callback) {
+    // todo
+}
+
+function drawShield(ctx, char, canvasChar, callback) {
+    // todo
+}
+
+function drawQuiver(ctx, char, canvasChar, callback) {
+    // todo
+}
+
 /*drawTrucs
 
             // Chest
