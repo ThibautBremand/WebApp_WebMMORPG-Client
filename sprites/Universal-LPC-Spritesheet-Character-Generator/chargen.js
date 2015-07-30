@@ -362,6 +362,13 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
         var imgName = "";
         var res = params.clothes.split("_");
         switch(res[0]) {
+            // Jacket
+            case "jacket":
+                if (params.clothes == "tabard") {
+                    imgUrl = "torso/chain/tabard/";
+                    imgName = "jacket_" + sex;
+                }
+                break; 
             // Mail
             case "mail":
                 if (params.clothes == "chain") {
@@ -371,12 +378,12 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
                 break;             
             // Clothes
             case "clothes":
-                if (params.clothes == "dress_sash") {
+                if (params.clothes == "dress_sash") { // (dress_female)
                     imgUrl = "torso/dress_female/";
                     imgName = "dress_w_sash_female";
                 }
                 break; 
-            // Gown
+            // Gown (dress_female)
             case "gown":
                 if (params.clothes == "underdress") {
                     imgUrl = "torso/dress_female/";
