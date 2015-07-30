@@ -454,18 +454,28 @@ function drawBracelet(ctx, char, canvasChar, callback) {
 
 function drawBracers(ctx, char, canvasChar, callback) {
     if (params.bracers != null) {
-        if (params.bracers == "cloth_bracers_female" ||
-        params.bracers == "leather_bracers_female" ||
-        params.bracers == "white_cloth_bandages" ||
-        params.bracers == "white_cloth_bracers" ) {
-            var img = getImage(ctx, "hands/bracers/female/" + params.bracers + ".png", char, canvasChar, function() {
-                drawImage(ctx, img);
-                callback();
-            });
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.bracers.split("_");
+        if ( res[0] == "leather" ) {
+            imgUrl = "hands/bracers/" + sex + "/";
+            imgName = res[0] + "_bracers_" + sex;
+            break;
         }
-        else {
+        else if ( res[1] == "cloth" ) {
+            imgUrl = "hands/bracers/" + sex + "/";
+            imgName = res[0] + "_cloth_" + res[2];
+            break;
+        }
+        else if ( res[0] == "cloth" ) {
+            imgUrl = "hands/bracers/" + sex + "/";
+            imgName = res[0] + "_bracers_" + sex;
+            break;            
+        }
+        var img = getImage(ctx, "hands/bracers/female/" + params.bracers + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
             callback();
-        }
+        });
     }
     else {
         callback();
