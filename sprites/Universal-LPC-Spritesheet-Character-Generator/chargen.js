@@ -437,21 +437,119 @@ function drawCape(ctx, char, canvasChar, sex, callback) {
         var imgName = "";
         var res = params.cape.split("_");
         switch(res[0]) {
-        case "tattered":
-            imgUrl = "torso/back/cape/tattered/" + sex + "/";
-            imgName = "tattercape_" + res[1];
-            break;
-        case "trimmed":
-            imgUrl = "torso/back/cape/trimmed/" + sex + "/";
-            imgName = "trimcape_" + res[1];
-            if ( res[2] != null ) {
-                imgName += res[2];
-            }
-            break;
-        default:
-            imgUrl = "torso/back/cape/normal/" + sex + "/";
-            imgName = "cape_" + res[0];
+            case "tattered":
+                imgUrl = "torso/back/cape/tattered/" + sex + "/";
+                imgName = "tattercape_" + res[1];
+                break;
+            case "trimmed":
+                imgUrl = "torso/back/cape/trimmed/" + sex + "/";
+                imgName = "trimcape_" + res[1];
+                if ( res[2] != null ) {
+                    imgName += res[2];
+                }
+                break;
+            default:
+                imgUrl = "torso/back/cape/normal/" + sex + "/";
+                imgName = "cape_" + res[0];
         }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
+function drawJacket(ctx, char, canvasChar, sex, callback) {
+    if (params.jacket != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.jacket.split("_");
+        switch(res[0]) {
+            case "tabard":
+            imgUrl = "torso/chain/tabard/";
+            imgName = "jacket_" + sex;
+            break; 
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
+function drawMail(ctx, char, canvasChar, sex, callback) {  
+    if (params.mail != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.mail.split("_");
+        switch(res[0]) {
+            case "chain":
+                imgUrl = "torso/chain/";
+                imgName = "mail_" + sex;
+                break;  
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
+function drawGown(ctx, char, canvasChar, sex, callback) {
+    if (params.mail != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.mail.split("_");
+        switch(res[0]) {
+            case "underdress":
+                imgUrl = "torso/dress_female/";
+                imgName = "underdress";
+                break;
+            case "overskirt":
+                imgUrl = "torso/dress_female/";
+                imgName = "overskirt";
+                break;
+            case "blue-vest":
+                imgUrl = "torso/dress_female/";
+                imgName = "blue-vest";
+                break; 
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
     }
 }
 
@@ -460,41 +558,12 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
         var imgUrl = "";
         var imgName = "";
         var res = params.clothes.split("_");
-        switch(res[0]) {
-            // Jacket
-            case "jacket":
-                if (params.clothes == "tabard") {
-                    imgUrl = "torso/chain/tabard/";
-                    imgName = "jacket_" + sex;
-                }
-                break; 
-            // Mail
-            case "mail":
-                if (params.clothes == "chain") {
-                    imgUrl = "torso/chain/";
-                    imgName = "mail_" + sex;
-                }
-                break;             
+        switch(res[0]) {           
             // Clothes
-            case "clothes":
-                if (params.clothes == "dress_sash") { // (dress_female)
+            case "dress":
+                if (res[1] == "sash") { // (dress_female)
                     imgUrl = "torso/dress_female/";
                     imgName = "dress_w_sash_female";
-                }
-                break; 
-            // Gown (dress_female)
-            case "gown":
-                if (params.clothes == "underdress") {
-                    imgUrl = "torso/dress_female/";
-                    imgName = "underdress";
-                }
-                else if (params.clothes == "overskirt") {
-                    imgUrl = "torso/dress_female/";
-                    imgName = "overskirt";
-                }
-                else if (params.clothes == "blue-vest") {
-                    imgUrl = "torso/dress_female/";
-                    imgName = "blue-vest";
                 }
                 break; 
             // Robe
