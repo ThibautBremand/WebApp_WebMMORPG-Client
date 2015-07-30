@@ -606,6 +606,52 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
     }
 }
 
+function drawLegs(ctx, char, canvasChar, callback) {
+    if ( params.legs != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.legs.split("_");
+        switch(res[0]) {
+            case "pants":
+                imgUrl = "legs/pants/" + sex + "/";
+                imgName = res[1] + "_" + res[0];
+                break;
+            case "robe":
+                imgUrl = "legs/skirt/" + sex + "/";
+                imgName = res[0] + "_" + res[1] + "_" + sex;
+                break;
+            case "sara":
+                imgUrl = "legs/pants/" + sex + "/";
+                imgName = "SaraLeggings";
+                break;
+        }
+    }
+    else {
+        callback();
+    }
+}
+
+function drawGreaves(ctx, char, canvasChar, callback) {
+    if ( params.legs != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.legs.split("_");
+        switch(res[0]) {
+            case "metal":
+                imgUrl = "legs/armor/" + sex + "/";
+                imgName = res[0] + "_pants_" + sex;
+                break;
+            case "golden":
+                imgUrl = "legs/armor/" + sex + "/";
+                imgName = res[0] + "_greaves_" + sex;
+                break;
+        }
+    }
+    else {
+        callback();
+    }
+}
+
 function drawBracelet(ctx, char, canvasChar, callback) {
     if (params.bracelet != null) {
         if (params.bracelet == "on") {
