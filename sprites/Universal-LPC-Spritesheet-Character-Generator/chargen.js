@@ -353,11 +353,11 @@ function drawEars(ctx, char, canvasChar, sex, callback) {
         switch(res[0]) {
             case "big":
                 imgUrl = "body/" + sex + "/ears/";
-                imgName = "bigears_" + skinColor;
+                imgName = res[0] + "ears_" + skinColor;
                 break; 
             case "elven":
                 imgUrl = "body/" + sex + "/ears/";
-                imgName = "elvenears_" + skinColor;
+                imgName = res[0] + "ears_" + skinColor;
                 break; 
         }
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
@@ -397,15 +397,15 @@ function drawNose(ctx, char, canvasChar, sex, callback) {
         switch(res[0]) {
             case "big":
                 imgUrl = "body/" + sex + "/nose/";
-                imgName = "bignose_" + skinColor;
+                imgName = res[0] + "nose_" + skinColor;
                 break; 
             case "button":
                 imgUrl = "body/" + sex + "/nose/";
-                imgName = "buttonnose_" + skinColor;
+                imgName = res[0] + "nose_" + skinColor;
                 break; 
             case "straight":
                 imgUrl = "body/" + sex + "/nose/";
-                imgName = "straightnose_" + skinColor;
+                imgName = res[0] + "nose_" + skinColor;
                 break; 
         }
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
@@ -438,11 +438,11 @@ function drawCape(ctx, char, canvasChar, sex, callback) {
         var res = params.cape.split("_");
         switch(res[0]) {
             case "tattered":
-                imgUrl = "torso/back/cape/tattered/" + sex + "/";
+                imgUrl = "torso/back/cape/" + res[0] + "/" + sex + "/";
                 imgName = "tattercape_" + res[1];
                 break;
             case "trimmed":
-                imgUrl = "torso/back/cape/trimmed/" + sex + "/";
+                imgUrl = "torso/back/cape/" + res[0] + "/" + sex + "/";
                 imgName = "trimcape_" + res[1];
                 if ( res[2] != null ) {
                     imgName += res[2];
@@ -474,18 +474,8 @@ function drawArmor(ctx, char, canvasChar, sex, callback) {
         var res = params.armor.split("_");
         switch(res[0]) {
             case "chest":
-                if ( res[1] == "gold" ) {
-                    imgUrl = "torso/gold/";
-                    imgName = "chest_" + sex;
-                }
-                else if ( res[1] == "leather" ) {
-                    imgUrl = "torso/leather/";
-                    imgName = "chest_" + sex;
-                }
-                else if ( res[1] == "plate" ) {
-                    imgUrl = "torso/plate/";
-                    imgName = "chest_" + sex;
-                }
+                imgUrl = "torso/" + res[1] + "/";
+                imgName = "chest_" + sex;
                 break; 
         }
         if ( imgUrl != "" ) {
@@ -510,7 +500,7 @@ function drawJacket(ctx, char, canvasChar, sex, callback) {
         var res = params.jacket.split("_");
         switch(res[0]) {
             case "tabard":
-                imgUrl = "torso/chain/tabard/";
+                imgUrl = "torso/chain/" + res[0] + "/";
                 imgName = "jacket_" + sex;
                 break; 
         }
@@ -564,16 +554,10 @@ function drawArms(ctx, char, canvasChar, sex, callback) {
         var imgUrl = "";
         var imgName = "";
         var res = params.arms.split("_");
-        switch(res[0]) {
-            case "gold":
-                imgUrl = "torso/gold/";
-                imgName = "arms_" + sex;
-                break; 
-            case "plate":
-                imgUrl = "torso/plate/";
-                imgName = "arms_" + sex;
-                break;
-        }
+
+        imgUrl = "torso/" + res[0] + "/";
+        imgName = "arms_" + sex;
+
         if ( imgUrl != "" ) {
             var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
                 drawImage(ctx, img);
@@ -596,7 +580,7 @@ function drawShoulders(ctx, char, canvasChar, sex, callback) {
         var res = params.shoulders.split("_");
         switch(res[0]) {
             case "leather":
-                imgUrl = "torso/leather/";
+                imgUrl = "torso/" + res[0] + "/";
                 imgName = "shoulders_" + sex;
                 break; 
         }
@@ -622,7 +606,7 @@ function drawMail(ctx, char, canvasChar, sex, callback) {
         var res = params.mail.split("_");
         switch(res[0]) {
             case "chain":
-                imgUrl = "torso/chain/";
+                imgUrl = "torso/" + res[0] + "/";
                 imgName = "mail_" + sex;
                 break;  
         }
@@ -646,20 +630,9 @@ function drawGown(ctx, char, canvasChar, sex, callback) {
         var imgUrl = "";
         var imgName = "";
         var res = params.mail.split("_");
-        switch(res[0]) {
-            case "underdress":
-                imgUrl = "torso/dress_female/";
-                imgName = "underdress";
-                break;
-            case "overskirt":
-                imgUrl = "torso/dress_female/";
-                imgName = "overskirt";
-                break;
-            case "blue-vest":
-                imgUrl = "torso/dress_female/";
-                imgName = "blue-vest";
-                break; 
-        }
+
+        imgUrl = "torso/dress_female/";
+        imgName = res[0];
         if ( imgUrl != "" ) {
             var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
                 drawImage(ctx, img);
@@ -685,7 +658,7 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
             case "dress":
                 if (res[1] == "sash") { // (dress_female)
                     imgUrl = "torso/dress_female/";
-                    imgName = "dress_w_sash_female";
+                    imgName = "dress_w_" + res[1] + "_female";
                 }
                 break; 
             // Robe
@@ -742,7 +715,7 @@ function drawLegs(ctx, char, canvasChar, callback) {
                 break;
             case "robe":
                 imgUrl = "legs/skirt/" + sex + "/";
-                imgName = res[0] + "_" + res[1] + "_" + sex;
+                imgName = res[0] + "_" + res[1] + "_" + sex + "_incomplete";
                 break;
             case "sara":
                 imgUrl = "legs/pants/" + sex + "/";
@@ -799,20 +772,9 @@ function drawFormal(ctx, char, canvasChar, callback) {
         var imgUrl = "";
         var imgName = "";
         var res = params.legs.split("_");
-        switch(res[0]) {
-            case "shirt":
-                imgUrl = "formal_" + sex + "_no_th-sh/";
-                imgName = "shirt";
-                break;
-            case "pants":
-                imgUrl = "formal_" + sex + "_no_th-sh/";
-                imgName = "pants";
-                break;
-            case "vest":
-                imgUrl = "formal_" + sex + "_no_th-sh/";
-                imgName = "vest";
-                break;
-        }
+
+        imgUrl = "formal_" + sex + "_no_th-sh/";
+        imgName = res[0];
         if ( imgUrl != "" ) {
             var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
                 drawImage(ctx, img);
@@ -943,13 +905,13 @@ function drawBelt(ctx, char, canvasChar, callback) {
         var imgName = "";
         var res = params.belt.split("_");
         if ( res[0] == "leather" ) {
-            imgUrl = "belt/leather/" + sex + "/";
+            imgUrl = "belt/" + res[0] + "/" + sex + "/";
             imgName = "leather_" + sex;
             break;
         }
         else if ( res[0] == "cloth" ) {
             if ( res[1] == "teal" && sex == "female" ) {
-                imgUrl = "belt/cloth/" + sex + "/";
+                imgUrl = "belt/" + res[0] + "/" + sex + "/";
                 imgName = res[1] + "_cloth_" + sex;
                 break;
             }
@@ -1019,16 +981,9 @@ function drawCapeacc(ctx, char, canvasChar, callback) {
         var imgUrl = "";
         var imgName = "";
         var res = params.capeacc.split("_");
-        if ( res[0] == "clip" ) {
-            imgUrl = "accessories/neck/capeclip/" + sex + "/";
-            imgName = "capeclip_" + res[1];
-            break;
-        }
-        else if ( res[0] == "tie" ) {
-            imgUrl = "accessories/neck/capetie/" + sex + "/";
-            imgName = "capetie_" + res[1];
-            break;
-        }
+
+        imgUrl = "accessories/neck/cape" + res[0] + "/" + sex + "/";
+        imgName = "cape" + res[0] + "_" + res[1];
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
@@ -1045,12 +1000,12 @@ function drawHat(ctx, char, canvasChar, callback) {
         var imgName = "";
         var res = params.hat.split("_");
         if ( res[0] == "bandana" ) {
-            imgUrl = "head/bandanas/" + sex + "/";
+            imgUrl = "head/" + res[0] + "/" + sex + "/";
             imgName = res[1];
             break;
         }
         else if ( res[0] == "cap" ) {
-            imgUrl = "head/caps/" + sex + "/";
+            imgUrl = "head/" + res[0] + "/" + sex + "/";
             imgName = res[1] + "_cap_" + sex;
             break;
         }
@@ -1060,7 +1015,7 @@ function drawHat(ctx, char, canvasChar, callback) {
             break;
         }
         else if ( res[0] == "hood" ) {
-            imgUrl = "head/hoods/" + sex + "/";
+            imgUrl = "head/" + res[0] + "/" + sex + "/";
             imgName = res[1] + "_hood_" + sex;
             break;
         }
