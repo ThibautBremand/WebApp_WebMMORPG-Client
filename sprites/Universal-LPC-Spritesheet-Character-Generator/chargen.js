@@ -327,9 +327,44 @@ function redraw(char, canvasChar) {
 }
 
 function drawEyes(ctx, char, canvasChar, sex, callback) {
-    /* Eyes */
     if (params.eyes != null) {
         var img = getImage(ctx, "body/" + sex + "/eyes/" + params.eyes + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawNose(ctx, char, canvasChar, sex, callback) {
+    var skinColor = "";
+    if ( params.body != null ) {
+        skinColor = params.body;
+    }
+    else {
+        skinColor = "light";
+    }
+    if (params.nose != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.nose.split("_");
+        switch(res[0]) {
+            case "big":
+                imgUrl = "body/" + sex + "/nose/";
+                imgName = "bignose_" + skinColor;
+                break; 
+            case "button":
+                imgUrl = "body/" + sex + "/nose/";
+                imgName = "buttonnose_" + skinColor;
+                break; 
+            case "straight":
+                imgUrl = "body/" + sex + "/nose/";
+                imgName = "straightnose_" + skinColor;
+                break; 
+        }
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
         });
