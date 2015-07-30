@@ -765,10 +765,10 @@ function drawLegs(ctx, char, canvasChar, callback) {
 }
 
 function drawGreaves(ctx, char, canvasChar, callback) {
-    if ( params.legs != null) {
+    if ( params.greaves != null) {
         var imgUrl = "";
         var imgName = "";
-        var res = params.legs.split("_");
+        var res = params.greaves.split("_");
         switch(res[0]) {
             case "metal":
                 imgUrl = "legs/armor/" + sex + "/";
@@ -862,7 +862,7 @@ function drawBracers(ctx, char, canvasChar, callback) {
             imgName = res[0] + "_bracers_" + sex;
             break;            
         }
-        var img = getImage(ctx, "hands/bracers/" + sex + "/" + params.bracers + ".png", char, canvasChar, function() {
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
         });
@@ -887,7 +887,47 @@ function drawGloves(ctx, char, canvasChar, callback) {
             imgName = res[0] + "_gloves_" + sex;
             break;
         }
-        var img = getImage(ctx, "hands/gloves/" + sex + "/" + params.bracers + ".png", char, canvasChar, function() {
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawShoes(ctx, char, canvasChar, callback) {
+    if (params.shoes != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.shoes.split("_");
+        if ( res[0] == "ghillies" ) {
+            imgUrl = "feet/";
+            imgName = "ghillies_" + sex + "_no_th-sh";
+            break;
+        }
+        else if ( res[0] == "sara" ) {
+            imgUrl = "feet/shoes/" + sex + "/";
+            imgName = "SaraShoes";
+            break;
+        }
+        else if ( res[0] == "boots" ) {
+            imgUrl = "feet/armor/" + sex + "/";
+            imgName = res[1] + "_boots_" + sex;
+            break;
+        }
+        else if ( res[0] == "slippers" ) {
+            imgUrl = "feet/slippers_" + sex + "/";
+            imgName = res[1];
+            break;
+        }
+        else {
+            imgUrl = "feet/shoes/" + sex + "/";
+            imgName = res[0] + "_shoes_" + sex + ;
+            break;   
+        }
+        var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
         });
