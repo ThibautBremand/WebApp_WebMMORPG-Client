@@ -590,7 +590,6 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
                 imgName = res[1] + "_" + res[0];
                 break;
         }
-
         if ( imgUrl != "" ) {
             var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
                 drawImage(ctx, img);
@@ -625,6 +624,15 @@ function drawLegs(ctx, char, canvasChar, callback) {
                 imgName = "SaraLeggings";
                 break;
         }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
     }
     else {
         callback();
@@ -646,6 +654,49 @@ function drawGreaves(ctx, char, canvasChar, callback) {
                 imgName = res[0] + "_greaves_" + sex;
                 break;
         }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
+function drawFormal(ctx, char, canvasChar, callback) {
+    if ( params.formal != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.legs.split("_");
+        switch(res[0]) {
+            case "shirt":
+                imgUrl = "formal_" + sex + "_no_th-sh/";
+                imgName = "shirt";
+                break;
+            case "pants":
+                imgUrl = "formal_" + sex + "_no_th-sh/";
+                imgName = "pants";
+                break;
+            case "vest":
+                imgUrl = "formal_" + sex + "_no_th-sh/";
+                imgName = "vest";
+                break;
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
     }
     else {
         callback();
