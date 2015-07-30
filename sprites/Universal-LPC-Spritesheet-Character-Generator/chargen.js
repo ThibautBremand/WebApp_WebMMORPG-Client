@@ -510,9 +510,39 @@ function drawJacket(ctx, char, canvasChar, sex, callback) {
         var res = params.jacket.split("_");
         switch(res[0]) {
             case "tabard":
-            imgUrl = "torso/chain/tabard/";
-            imgName = "jacket_" + sex;
-            break; 
+                imgUrl = "torso/chain/tabard/";
+                imgName = "jacket_" + sex;
+                break; 
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
+function drawTie(ctx, char, canvasChar, sex, callback) {
+    if (params.tie != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.tie.split("_");
+        switch(res[0]) {
+            case "on":
+                imgUrl = "formal_" + sex + "_no_th-sh/";
+                imgName = "tie";
+                break; 
+            case "bow":
+                imgUrl = "formal_" + sex + "_no_th-sh/";
+                imgName = "bowtie";
+                break;
         }
         if ( imgUrl != "" ) {
             var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
