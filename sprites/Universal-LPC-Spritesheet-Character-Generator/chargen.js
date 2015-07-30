@@ -467,6 +467,42 @@ function drawCape(ctx, char, canvasChar, sex, callback) {
     }
 }
 
+function drawArmor(ctx, char, canvasChar, sex, callback) {
+    if (params.armor != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.armor.split("_");
+        switch(res[0]) {
+            case "chest":
+                if ( res[1] == "gold" ) {
+                    imgUrl = "torso/gold/";
+                    imgName = "chest_" + sex;
+                }
+                else if ( res[1] == "leather" ) {
+                    imgUrl = "torso/leather/";
+                    imgName = "chest_" + sex;
+                }
+                else if ( res[1] == "plate" ) {
+                    imgUrl = "torso/plate/";
+                    imgName = "chest_" + sex;
+                }
+                break; 
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
 function drawJacket(ctx, char, canvasChar, sex, callback) {
     if (params.jacket != null) {
         var imgUrl = "";
@@ -568,8 +604,11 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
                 break; 
             // Robe
             case "robe":
-                imgUrl = "torso/robes_female_no_th-sh/";
+                imgUrl = "torso/robes_" + sex + "_no_th-sh/";
                 imgName = res[1];
+                if ( res[2] != null ) {
+                    imgName += " " + res[2];
+                }
                 break;            
             // Shirts
             case "pirate":
