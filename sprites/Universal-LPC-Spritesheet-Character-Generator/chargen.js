@@ -158,22 +158,18 @@ function redraw(char, canvasChar) {
                 /* Body */
                 var img = getImage(ctx, "body/female/" + params.body + ".png", char, canvasChar, function() {
                     drawImage(ctx, img);
-                    console.log("Body drawn")
                     drawEyes(ctx, char, canvasChar, "female", function() {
-                        console.log("Eyes drawn")
                         drawHair(ctx, char, canvasChar, "female", function() {
-                            console.log("Hair drawn")
                             drawClothes(ctx, char, canvasChar, "female", function() {
-                                console.log("Clothes drawn")
                                 drawBracelet(ctx, char, canvasChar, function() {
-                                    console.log("Bracelet drawn")
                                     drawBracers(ctx, char, canvasChar, function() {
-                                        console.log("Bracers drawn")
-                                        char.image.src = canvasChar.toDataURL('image/png');
-                                        connectedCharsToDraw.splice(0, 1);
-                                        if ( connectedCharsToDraw.length > 0 ) {
-                                            generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
-                                        }
+                                        drawGloves(ctx, char, canvasChar, function() {
+                                            char.image.src = canvasChar.toDataURL('image/png');
+                                            connectedCharsToDraw.splice(0, 1);
+                                            if ( connectedCharsToDraw.length > 0 ) {
+                                                generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
+                                            }
+                                        });
                                     });
                                 });
                             });
@@ -472,7 +468,32 @@ function drawBracers(ctx, char, canvasChar, callback) {
             imgName = res[0] + "_bracers_" + sex;
             break;            
         }
-        var img = getImage(ctx, "hands/bracers/female/" + params.bracers + ".png", char, canvasChar, function() {
+        var img = getImage(ctx, "hands/bracers/" + sex + "/" + params.bracers + ".png", char, canvasChar, function() {
+            drawImage(ctx, img);
+            callback();
+        });
+    }
+    else {
+        callback();
+    }
+}
+
+function drawGloves(ctx, char, canvasChar, callback) {
+    if (params.gloves != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.bracers.split("_");
+        if ( res[0] == "golden" ) {
+            imgUrl = "hands/gloves/" + sex + "/";
+            imgName = res[0] + "_gloves_" + sex;
+            break;
+        }
+        else if ( res[1] == "metal" ) {
+            imgUrl = "hands/bracers/" + sex + "/";
+            imgName = res[0] + "_gloves_" + sex;
+            break;
+        }
+        var img = getImage(ctx, "hands/gloves/" + sex + "/" + params.bracers + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
         });
