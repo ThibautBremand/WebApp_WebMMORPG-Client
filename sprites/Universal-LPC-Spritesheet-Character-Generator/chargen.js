@@ -431,6 +431,30 @@ function drawHair(ctx, char, canvasChar, sex, callback) {
     }
 }
 
+function drawCape(ctx, char, canvasChar, sex, callback) {
+    if (params.cape != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.cape.split("_");
+        switch(res[0]) {
+        case "tattered":
+            imgUrl = "torso/back/cape/tattered/" + sex + "/";
+            imgName = "tattercape_" + res[1];
+            break;
+        case "trimmed":
+            imgUrl = "torso/back/cape/trimmed/" + sex + "/";
+            imgName = "trimcape_" + res[1];
+            if ( res[2] != null ) {
+                imgName += res[2];
+            }
+            break;
+        default:
+            imgUrl = "torso/back/cape/normal/" + sex + "/";
+            imgName = "cape_" + res[0];
+        }
+    }
+}
+
 function drawClothes(ctx, char, canvasChar, sex, callback) {
     if (params.clothes != null) {
         var imgUrl = "";
@@ -464,11 +488,11 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
                     imgUrl = "torso/dress_female/";
                     imgName = "underdress";
                 }
-                if (params.clothes == "overskirt") {
+                else if (params.clothes == "overskirt") {
                     imgUrl = "torso/dress_female/";
                     imgName = "overskirt";
                 }
-                if (params.clothes == "blue-vest") {
+                else if (params.clothes == "blue-vest") {
                     imgUrl = "torso/dress_female/";
                     imgName = "blue-vest";
                 }
@@ -561,13 +585,13 @@ function drawGloves(ctx, char, canvasChar, callback) {
     if (params.gloves != null) {
         var imgUrl = "";
         var imgName = "";
-        var res = params.bracers.split("_");
+        var res = params.gloves.split("_");
         if ( res[0] == "golden" ) {
             imgUrl = "hands/gloves/" + sex + "/";
             imgName = res[0] + "_gloves_" + sex;
             break;
         }
-        else if ( res[1] == "metal" ) {
+        else if ( res[0] == "metal" ) {
             imgUrl = "hands/bracers/" + sex + "/";
             imgName = res[0] + "_gloves_" + sex;
             break;
