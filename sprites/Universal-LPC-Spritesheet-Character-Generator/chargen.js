@@ -559,6 +559,62 @@ function drawTie(ctx, char, canvasChar, sex, callback) {
     }
 }
 
+function drawArms(ctx, char, canvasChar, sex, callback) {
+    if (params.arms != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.arms.split("_");
+        switch(res[0]) {
+            case "gold":
+                imgUrl = "torso/gold/";
+                imgName = "arms_" + sex;
+                break; 
+            case "plate":
+                imgUrl = "torso/plate/";
+                imgName = "arms_" + sex;
+                break;
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
+function drawShoulders(ctx, char, canvasChar, sex, callback) {
+    if (params.shoulders != null) {
+        var imgUrl = "";
+        var imgName = "";
+        var res = params.shoulders.split("_");
+        switch(res[0]) {
+            case "leather":
+                imgUrl = "torso/leather/";
+                imgName = "shoulders_" + sex;
+                break; 
+        }
+        if ( imgUrl != "" ) {
+            var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
+                drawImage(ctx, img);
+                callback();
+            });
+        }  
+        else {
+            callback();
+        } 
+    }
+    else {
+        callback();
+    }
+}
+
 function drawMail(ctx, char, canvasChar, sex, callback) {  
     if (params.mail != null) {
         var imgUrl = "";
