@@ -10,6 +10,8 @@ function Map(json) {
     this.collisions = new Array();
     this.neighbors = new Array();
 
+    audioManager.launchAudio("audio/Aaron.Krogh.Sound.Color.Complete.May.2014/RPG Maker Sound Color 3/09 309 - Desert Battle.mp3")
+
     // Loads the layers from the json files given
     this.loadLayers = function() {
 		// Retrieves all the layers for the map

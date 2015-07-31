@@ -1,4 +1,4 @@
-_.mixin(_.str.exports());
+//_.mixin(_.str.exports());
 var params;
 // Cache images
 var images = {};
@@ -7,9 +7,7 @@ var TIMER = 0;
 
 function generate(char, json) {
     params = jQuery.parseJSON(json);
-    //interpretParams();
     var newCanvas = document.createElement("canvas");
-    //document.body.appendChild(newCanvas);
     redraw(char, newCanvas);
 }
 
@@ -37,8 +35,6 @@ function interpretParams() {
 
 // called each time redrawing
 function redraw(char, canvasChar) {
-    //var canvasChar = $("#charLoader").get(0);
-
     // If an oversize element is being used, expand canvas,
     // otherwise return it to normal size
     oversize = false;        
@@ -886,39 +882,12 @@ function drawQuiver(ctx, char, canvasChar, sex, callback) {
     callback();
 }
 
-/*drawTrucs
-
-            // Chest
-            case "chest":
-                    imgUrl = "torso/" + res[1] + "/";
-                    imgName = "chest_" + sex;
-                    break;
-            // Shoulders
-            case "shoulders":
-                    imgUrl = "torso/" + res[1] + "/";
-                    imgName = "spikes_" + sex;
-                    break; 
-            // Spikes
-            case "spikes":
-                    imgUrl = "torso/" + res[1] + "/";
-                    imgName = "spikes_" + sex;
-                    break;   
-
-*/
-
-
 function getImage(ctx, imgRef, char, canvasChar, callback) {
-    //if (images[imgRef]) {}
-        //return images[imgRef];
-    //else {
-        // Load image if not in cache
-        var img = new Image();
-        img.src = "sprites/Universal-LPC-Spritesheet-Character-Generator/Universal-LPC-spritesheet/" + imgRef;
-        //img.onload = function() { redraw(char, canvasChar); }
-        img.onload = callback;
-        images[imgRef] = img;
-        return img;
-    //}
+    var img = new Image();
+    img.src = "sprites/Universal-LPC-Spritesheet-Character-Generator/Universal-LPC-spritesheet/" + imgRef;
+    img.onload = callback;
+    images[imgRef] = img;
+    return img;
 }
 
 // Do not stop running all javascript if image not available
@@ -931,114 +900,6 @@ function drawImage(ctx, img) {
 }
 
 $(document).ready(function() {
-
-    // Get querystring paramters
-    //var params = jHash.val();
-    
-    // on hash (url) change event, interpret and redraw
-
-    /*jHash.change(function() {
-        params = jHash.val();
-        interpretParams();
-        redraw();
-    });*/
-
-    // set params and redraw when any radio button or checkbox is clicked on
-    /*$("input[type=radio], input[type=checkbox]").each(function() {
-        $(this).click(function() {
-            setParams();
-            redraw();
-        });
-    });*/
-    
-    // When radio button is unchecked, its children should be too. 
-    /*$("input[type=radio]").each(function() {
-        $(this).change(function() {
-            var name = $(this).attr("name");
-            // Sadly we need to use setTimeout
-            window.setTimeout(function() {
-                $("li>span>input[name=" + name + "]").each(function() {
-                    if (!($(this).prop("checked"))) {
-                        var $this = $(this).parent();
-                        $this.removeClass("expanded").addClass("condensed");
-                        $this = $this.parent();
-                        var $ul = $this.children("ul");
-                        $ul.hide('slow');
-                        $ul.find("input[type=checkbox]").each(function() {
-                            $(this).prop("checked", false);
-                        });
-                    }
-                });
-                redraw();
-            }, 0);
-        });
-    });*/
-    
-    // Do not multiple toggle when clicking on children
-    /*$("#chooser>ul>li>ul>li>ul>li").click(function(event) {
-        event.stopPropagation();
-    });*/
-    
-    // Toggle display of a list elements children when clicked
-    // Do not do so twice, once on label then on input
-    // Again, do not multiple toggle when clicking on children
-    /*$("#chooser>ul>li>ul>li").click(function(event) {
-        if (!($(event.target).get(0).tagName == "LABEL")) {
-            $(this).children("span").toggleClass("condensed").toggleClass("expanded");
-            var $ul = $(this).children("ul");
-            $ul.toggle('slow').promise().done(drawPreviews);
-        }
-        event.stopPropagation();
-    });*/
-    
-    // Toggle display of a list elements children when clicked
-    // Again, do not multiple toggle when clicking on children
-    /*$("#chooser>ul>li").click(function(event) {
-        $(this).children("span").toggleClass("condensed").toggleClass("expanded");
-        var $ul = $(this).children("ul");
-        $ul.toggle('slow').promise().done(drawPreviews);
-        event.stopPropagation();
-    });*/
-    
-    // When clicking on collapse all link, collapse all uls in #chooser
-    /*$("#collapse").click(function() {
-        $("#chooser>ul ul").hide('slow');
-        $("#chooser>ul span.expanded").removeClass("expanded").addClass("condensed");
-    });*/
-    
-    // Redraw afer reset
-    /*$("input[type=reset]").click(function() {
-        // Sadly we need to use setTimeout
-        window.setTimeout(function() {
-            params = {};
-            jHash.val(params);
-            redraw();
-        }, 0, false);
-    });*/
-    
-    /*var canvas = $("#spritesheet").get(0);
-    var ctx = canvas.getContext("2d");*/
-    
-    // Save canvas as PNG
-    /*$("#saveAsPNG").click(function() {
-        Canvas2Image.saveAsPNG(canvasChar);
-    });*/
-    
-    // Determine if an oversize element used
-    /*var oversize = $("input[type=radio]").filter(function() {
-        return $(this).data("oversize");
-    }).length > 0;*/
-    
-    // Expand canvas if oversize element used
-    /*if (oversize) {
-        canvasChar.width = 1536;
-        canvasChar.height = 1344 + 768;
-    } else {
-        canvasChar.width = 832;
-        canvasChar.height = 1344;
-    }
-    $("#chooser>ul").css("height", canvasChar.height);*/
-    
     // Set parameters in response to click on any radio button or checkbox
     function setParams() {
         $("input[type=radio]:checked").each(function() {
@@ -1070,63 +931,4 @@ $(document).ready(function() {
             return img;
         }
     }
-    
-    // Draw now - on ready
-    //interpretParams();
-    /*if (Object.keys(params).length == 0) {
-        $("input[type=reset]").click();
-        setParams();
-    }*/
-    //redraw();    
-
-    // Draw preview images
-    /*function drawPreviews() {
-        this.find("input[type=radio], input[type=checkbox]").filter(function() {
-            return $(this).is(":visible");
-        }).each(function() {
-            if (!$(this).parent().hasClass("hasPreview")) {
-                var prev = document.createElement("canvas");
-                var oversize = $(this).data("oversize");
-                if (!oversize) {
-                    prev.setAttribute("width", 64);
-                    prev.setAttribute("height", 64);
-                } else {
-                    prev.setAttribute("width", 192);
-                    prev.setAttribute("height", 192);
-                }
-                var prevctx = prev.getContext("2d");
-                var img = null;
-                var previewRow = $(this).data("preview_row");
-                if (!previewRow)
-                    previewRow = 10;
-                else
-                    previewRow = parseInt(previewRow);
-                var callback = function(img) {
-                    try {
-                        if (oversize)
-                            prevctx.drawImage(img, 0, 2 * 192, 192, 192, 0, 0, 192, 192);
-                        else
-                            prevctx.drawImage(img, 0, previewRow * 64, 64, 64, 0, 0, 64, 64);
-                    } catch (err) {
-                        console.log(err);
-                    }
-                };
-                if ($(this).data("file"))
-                    img = getImage2($(this).data("file"), callback);
-                else if ($(this).data("file_male"))
-                    img = getImage2($(this).data("file_male"), callback);
-                else if ($(this).data("file_female"))
-                    img = getImage2($(this).data("file_female"), callback);
-                else if ($(this).data("file_male_light"))
-                    img = getImage2($(this).data("file_male_light"), callback);
-                else if ($(this).data("file_no_hat"))
-                    img = getImage2($(this).data("file_no_hat"), callback);
-                if (img != null) {
-                    this.parentNode.insertBefore(prev, this);
-                    $(this).parent().addClass("hasPreview").parent().addClass("hasPreview");
-                }
-            }
-        });
-    };*/
-    
 });

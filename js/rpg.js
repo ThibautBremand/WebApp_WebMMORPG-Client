@@ -4,6 +4,7 @@ var joueur;
 var separator = "%:%";
 
 var map;
+var audioManager = new AudioManager();
 
 function drawRPG() {
 	var canvas = document.getElementById('canvas');
