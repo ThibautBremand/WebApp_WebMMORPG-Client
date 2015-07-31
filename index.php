@@ -31,7 +31,7 @@
         <!--<script type="text/javascript" src="sprites/Universal-LPC-Spritesheet-Character-Generator/jhash-2.1.min.js"></script>-->
         <script type="text/javascript" src="sprites/Universal-LPC-Spritesheet-Character-Generator/canvas2image.js"></script>
         <script type="text/javascript" src="sprites/Universal-LPC-Spritesheet-Character-Generator/base64.js"></script>
-        <script type="text/javascript" src="sprites/Universal-LPC-Spritesheet-Character-Generator/chargen.js"></script>
+        <script type="text/javascript" src="js/characterDrawer.js"></script>
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
