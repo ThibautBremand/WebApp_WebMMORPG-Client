@@ -7,10 +7,9 @@ var TIMER = 0;
 
 function generate(char, json) {
     params = jQuery.parseJSON(json);
-    console.log (params)
     //interpretParams();
     var newCanvas = document.createElement("canvas");
-    document.body.appendChild(newCanvas);
+    //document.body.appendChild(newCanvas);
     redraw(char, newCanvas);
 }
 
@@ -54,288 +53,138 @@ function redraw(char, canvasChar) {
 
     // start over
     ctx.clearRect(0, 0, canvasChar.width, canvasChar.height);
-    
-    // determine if an oversize element is being used
-    /*oversize = $("input[type=radio]:checked").filter(function() {
-        return $(this).data("oversize");
-    }).length > 0;*/
 
     $("#chooser>ul").css("height", canvasChar.height);
     oversize = !!oversize;
-    
-    // non oversize elements
-    /*$("input[type=radio]:checked, input[type=checkbox]:checked").filter(function() {
-        return !$(this).data("oversize");
-    }).each(function(index) {*/
 
-        // save this in closure
-        var $this = $(this);
-    
-        // Determine if male or female selected
-        if ( params.sex == "female" ) {
-            var isMale = false;
-            var isFemale = true;
-        }
-        else if ( params.sex === undefined ) {
-            var isMale = true;
-            var isFemale = false;            
-        }
-        
-        // if data-file specified
-        /*if ($(this).data("file")) {
-            var img = getImage($(this).data("file"), char, canvasChar);
-            
-            // if data-behind specified, draw behind existing pixels
-            if ($(this).data("behind")) {
-                ctx.globalCompositeOperation = "destination-over";
-                drawImage(ctx, img);
-                ctx.globalCompositeOperation = "source-over";
-            } else
-                drawImage(ctx, img);
-        }*/
-        
-        // if data-file_behind specified
-        /*if ($(this).data("file_behind")) {
-            var img = getImage($(this).data("file_behind"), char, canvasChar);
-            ctx.globalCompositeOperation = "destination-over";
-            drawImage(ctx, img);
-            ctx.globalCompositeOperation = "source-over";
-        }*/
-        
-        // Deal with shield/chain hat overlap issue
-        /*if ($(this).data("file_hat") && $("#hat_chain").prop("checked")) {
-            var img = getImage($(this).data("file_hat"), char, canvasChar);
-            drawImage(ctx, img);
-        }
-        if ($(this).data("file_no_hat") && !$("#hat_chain").prop("checked")) {
-            var img = getImage($(this).data("file_no_hat"), char, canvasChar);
-            drawImage(ctx, img);
-        }*/
-        
-        // if data-file_male and data-file_female is specified
-        /*if (isMale) {
-            var img = getImage($(this).data("file_male"), char, canvasChar);
-            drawImage(ctx, img);
-        }
-        if (isFemale) {
-            var img = getImage($(this).data("file_female"), char, canvasChar);
-            drawImage(ctx, img);
-        }*/
-        
-        // if data-file_male_light... and data-file_female_light... is specified
-        //var bodytypes = ["light", "dark", "dark2", "tanned", "tanned2", "darkelf", "darkelf2"];
-        if (isMale) {
-            /*_.each(bodytypes, function(bodytype) {
-                if ($("#body-" + bodytype).prop("checked") && $this.data("file_male_" + bodytype)) {
-                    var img = getImage($this.data("file_male_" + bodytype), char, canvasChar);
-                    drawImage(ctx, img);
-                }
-            });*/
-            //if ( $this.data("file_male_" + params.body) ) {
-                //var img = getImage($this.data("file_male_" + params.body), char, canvasChar);
-                var img = getImage(ctx, "body/male/" + params.body + ".png", char, canvasChar, "body/male/" + params.body + ".png", function() {
-                    drawImage(ctx, img);
-                    console.log("Body drawn")
-                    char.image.src = canvasChar.toDataURL('image/png');
-                    connectedCharsToDraw.splice(0, 1);
-                    if ( connectedCharsToDraw.length > 0 ) {
-                        generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
-                    }
-                });
-                //getImage(ctx, img);
-            //}
-        }
-        if (isFemale) {
-            /*_.each(bodytypes, function(bodytype) {
-                if ($("#body-" + bodytype).prop("checked") && $this.data("file_female_" + bodytype)) {
-                    var img = getImage($this.data("file_female_" + bodytype), char, canvasChar);
-                    drawImage(ctx, img);
-                }
-            });*/
-            //if ( $this.data("file_female_" + params.body) ) {
-                //var img = getImage($this.data("file_female_" + params.body), char, canvasChar);
-                
-                /* Body */
-            var img = getImage(ctx, "body/female/" + params.body + ".png", char, canvasChar, function() {
-                drawImage(ctx, img);
-                drawEars(ctx, char, canvasChar, "female", function() {
+    // save this in closure
+    var $this = $(this);
 
-                    drawEyes(ctx, char, canvasChar, "female", function() {
-
-                        drawNose(ctx, char, canvasChar, "female", function() {
-
-                            drawHair(ctx, char, canvasChar, "female", function() {
-
-                                drawClothes(ctx, char, canvasChar, "female", function() {
-
-                                    drawBracelet(ctx, char, canvasChar, function() {
-
-                                        drawBracers(ctx, char, canvasChar, function() {
-
-                                            drawGloves(ctx, char, canvasChar, function() {
-
-                                                char.image.src = canvasChar.toDataURL('image/png');
-                                                connectedCharsToDraw.splice(0, 1);
-                                                if ( connectedCharsToDraw.length > 0 ) {
-                                                    generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
-                                                }
-                                            });
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        }
-                    /* Hair */
-                    /*if (params.hair != null) {
-                        var res = params.hair.split("_");
-                        getImage(ctx, "hair/female/" + res[0] + "/" + res[1] + ".png", char, canvasChar, "hair/female/" + res[0] + "/" + res[1] + ".png");
-                    }
-
-                    /* Clothes */
-                    /*if (params.clothes != null) {
-                        if ( params.clothes == "brown_pirate" || 
-                        params.clothes == "brown_sleeveless" || 
-                        params.clothes == "maroon_pirate" || 
-                        params.clothes == "maroon_sleeveless" || 
-                        params.clothes == "teal_pirate" || 
-                        params.clothes == "teal_sleeveless" || 
-                        params.clothes == "white_pirate" || 
-                        params.clothes ==  "white_sleeveless") {
-                            getImage(ctx, "torso/shirts/sleeveless/female/" + params.clothes + ".png", char, canvasChar, "torso/shirts/sleeveless/female/" + params.clothes + ".png");
-                        }
-                    }
-
-                    /* Bracelet */
-                    /*if (params.bracelet != null) {
-                        if (params.bracelet == "on") {
-                            getImage(ctx, "hands/bracelets/bracelet.png", char, canvasChar, "hands/bracelets/bracelet.png");
-                        }
-                    }
-
-                    /* Bracers */
-                    /*if (params.bracers != null) {
-                        if (params.bracers == "cloth_bracers_female" ||
-                        params.bracers == "leather_bracers_female" ||
-                        params.bracers == "white_cloth_bandages" ||
-                        params.bracers == "white_cloth_bracers" ) {
-                            getImage(ctx, "hands/bracers/female/" + params.bracers + ".png", char, canvasChar, "hands/bracers/female/" + params.bracers + ".png");
-                        }
-                    }
-
-                    char.image.src = canvasChar.toDataURL('image/bmp');
-                });
-            //}
-        }
-        
-        // Draw shadows for plain or ponytail2 hairstyles appropriate to body color
-        var id = $(this).attr("id");
-        if (_.startsWith(id, "hair-")) {
-            var style = id.substring(5, id.indexOf("-", 5));
-            $("input[type=radio]:checked").filter(function() {
-                return $(this).attr("id").substr(0, 5) == "body-";
-            }).each(function() {
-                var hsMale = "hs_" + style + "_male";
-                var hsFemale = "hs_" + style + "_female";
-                if (isMale && $(this).data(hsMale)) {
-                    var img = getImage($(this).data(hsMale), char, canvasChar)
-                    drawImage(ctx, img);
-                }
-                if (isFemale && $(this).data(hsFemale)) {
-                    var img = getImage($(this).data(hsFemale), char, canvasChar)
-                    drawImage(ctx, img);
-                }
-            });
-        }
-    //});
-    
-    // Oversize weapons: Copy existing canvas poses to new locations
-    // with 192x192 padding rather than 64x64
-    // data-oversize="1" means thrust weapon
-    // data-oversize="2" means slash weapon
-    // use appropriate thrust or slash pose
-    /*if (oversize) {
-        $("input[type=radio]:checked").filter(function() {
-            return $(this).data("oversize");
-        }).each(function(index) {
-            var type = $(this).data("oversize");
-            if (type == 1) {
-                for (var i = 0; i < 8; ++i)
-                    for (var j = 0; j < 4; ++j) {
-                        var imgData = ctx.getImageData(64 * i, 264 + 64 * j, 64, 64);
-                        ctx.putImageData(imgData, 64 + 192 * i, 1416 + 192 * j);
-                    }
-                if ($(this).data("file")) {
-                    var img = getImage($(this).data("file"), char, canvasChar);
-                    ctx.drawImage(img, 0, 1344);
-                }
-            } else if (type == 2) {
-                for (var i = 0; i < 6; ++i)
-                    for (var j = 0; j < 4; ++j) {
-                        var imgData = ctx.getImageData(64 * i, 776 + 64 * j, 64, 64);
-                        ctx.putImageData(imgData, 64 + 192 * i, 1416 + 192 * j);
-                    }
-                if ($("#sex-male").prop("checked") && $(this).data("file_male")) {
-                    var img = getImage($(this).data("file_male"), char, canvasChar);
-                    ctx.drawImage(img, 0, 1344);
-                }
-                if ($("#sex-female").prop("checked") && $(this).data("file_female")) {
-                    var img = getImage($(this).data("file_female"), char, canvasChar);
-                    ctx.drawImage(img, 0, 1344);
-                }
-            }
-        });
-    }*/
-    
-    // Clear everything if illegal combination used
-    // Probably should try to prevent this
-    /*$("input[type=radio], input[type=checkbox]").each(function(index) {
-        if ($(this).data("required")) {
-            var requirements = $(this).data("required").split(",");
-            var passed = true;
-            _.each(requirements, function(req) {
-                var requirement = req.replace("=", "-");
-                if (!$("#" + requirement).prop("checked"))
-                    passed = false;
-            });
-            if (passed)
-                $(this).prop("disabled", false);
-            else {
-                $(this).prop("disabled", true);
-                if ($(this).prop("checked"))
-                    ctx.clearRect(0, 0, canvasChar.width, canvasChar.height);
-            }
-        }
-        if ($(this).data("prohibited")) {
-            var requirements = $(this).data("prohibited").split(",");
-            var passed = true;
-            _.each(requirements, function(req) {
-                var requirement = req.replace("=", "-");
-                if ($("#" + requirement).prop("checked"))
-                    passed = false;
-            });
-            if (passed)
-                $(this).prop("disabled", false);
-            else {
-                $(this).prop("disabled", true);
-                if ($(this).prop("checked"))
-                    ctx.clearRect(0, 0, canvasChar.width, canvasChar.height);
-            }
-        }
-    });
-    if ( cptDraw >= countProperties(params) - 2 ) {
-        //Canvas2Image.saveAsPNG(canvasChar);
-        char.image.src = canvasChar.toDataURL('image/bmp');
-        cptDraw = 0;
+    // Determine if male or female selected
+    var sex = "";
+    if ( params.sex == "female" ) {
+        var isMale = false;
+        var isFemale = true;
+        sex = "female";
+    }
+    else if ( params.sex === undefined ) {
+        var isMale = true;
+        var isFemale = false;
+        sex = "male";            
     }
 
-    else {
-        cptDraw ++;
-    }*/
+    drawBody(ctx, char, canvasChar, sex, function() {
 
+    drawEars(ctx, char, canvasChar, sex, function() {
+
+    drawEyes(ctx, char, canvasChar, sex, function() {
+
+    drawNose(ctx, char, canvasChar, sex, function() {
+
+    drawHair(ctx, char, canvasChar, sex, function() {
+
+    drawCape(ctx, char, canvasChar, sex, function() { 
+
+    drawArmor(ctx, char, canvasChar, sex, function() {  
+
+    drawJacket(ctx, char, canvasChar, sex, function() { 
+
+    drawTie(ctx, char, canvasChar, sex, function() {
+
+    drawArms(ctx, char, canvasChar, sex, function() {
+
+    drawShoulders(ctx, char, canvasChar, sex, function() {
+
+    drawMail(ctx, char, canvasChar, sex, function() {
+
+    drawGown(ctx, char, canvasChar, sex, function() {
+
+    drawClothes(ctx, char, canvasChar, sex, function() {
+
+    drawLegs(ctx, char, canvasChar, sex, function() {
+
+    drawGreaves(ctx, char, canvasChar, sex, function() {
+
+    drawFormal(ctx, char, canvasChar, sex, function() {
+
+    drawBracelet(ctx, char, canvasChar, sex, function() {
+
+    drawBracers(ctx, char, canvasChar, sex, function() {
+
+    drawGloves(ctx, char, canvasChar, sex, function() {
+
+    drawShoes(ctx, char, canvasChar, sex, function() {
+
+    drawBelt(ctx, char, canvasChar, sex, function() {
+
+    drawBuckle(ctx, char, canvasChar, sex, function() {
+
+    drawNecklace(ctx, char, canvasChar, sex, function() {
+
+    drawCapeacc(ctx, char, canvasChar, sex, function() {
+
+    drawHat(ctx, char, canvasChar, sex, function() {
+
+    drawWeapon(ctx, char, canvasChar, sex, function() {
+
+    drawAmmo(ctx, char, canvasChar, sex, function() {
+
+    drawShield(ctx, char, canvasChar, sex, function() {
+
+    drawQuiver(ctx, char, canvasChar, sex, function() {
+
+    char.image.src = canvasChar.toDataURL('image/png');
+    connectedCharsToDraw.splice(0, 1);
+
+    if ( connectedCharsToDraw.length > 0 ) {
+        generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]);
+    }
+
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+}
+
+function drawBody(ctx, char, canvasChar, sex, callback) {
+    var body;
+    if ( params.body == null ) {
+        body = "light";
+    }
+    else {
+        body = params.body;
+    }
+    var imgName = "body/" + sex + "/" + body + ".png"
+    var img = getImage(ctx, imgName, char, canvasChar, function() {
+        drawImage(ctx, img);
+        callback();
+    });
 }
 
 function drawEars(ctx, char, canvasChar, sex, callback) {
@@ -421,7 +270,12 @@ function drawNose(ctx, char, canvasChar, sex, callback) {
 function drawHair(ctx, char, canvasChar, sex, callback) {
     if (params.hair != null) {
         var res = params.hair.split("_");
-        var img = getImage(ctx, "hair/" + sex + "/" + res[0] + "/" + res[1] + ".png", char, canvasChar, function() {
+        var imgName = "hair/" + sex + "/" + res[0] + "/" + res[1];
+        if (res[2] != null) {
+            imgName +=  "-" + res[2];
+        }
+        imgName +=  ".png";
+        var img = getImage(ctx, imgName, char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
         });
@@ -703,7 +557,7 @@ function drawClothes(ctx, char, canvasChar, sex, callback) {
     }
 }
 
-function drawLegs(ctx, char, canvasChar, callback) {
+function drawLegs(ctx, char, canvasChar, sex, callback) {
     if ( params.legs != null) {
         var imgUrl = "";
         var imgName = "";
@@ -711,7 +565,7 @@ function drawLegs(ctx, char, canvasChar, callback) {
         switch(res[0]) {
             case "pants":
                 imgUrl = "legs/pants/" + sex + "/";
-                imgName = res[1] + "_" + res[0];
+                imgName = res[1] + "_" + res[0] + "_" + sex;
                 break;
             case "robe":
                 imgUrl = "legs/skirt/" + sex + "/";
@@ -737,7 +591,7 @@ function drawLegs(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawGreaves(ctx, char, canvasChar, callback) {
+function drawGreaves(ctx, char, canvasChar, sex, callback) {
     if ( params.greaves != null) {
         var imgUrl = "";
         var imgName = "";
@@ -767,7 +621,7 @@ function drawGreaves(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawFormal(ctx, char, canvasChar, callback) {
+function drawFormal(ctx, char, canvasChar, sex, callback) {
     if ( params.formal != null) {
         var imgUrl = "";
         var imgName = "";
@@ -790,7 +644,7 @@ function drawFormal(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawBracelet(ctx, char, canvasChar, callback) {
+function drawBracelet(ctx, char, canvasChar, sex, callback) {
     if (params.bracelet != null) {
         if (params.bracelet == "on") {
             var img = getImage(ctx, "hands/bracelets/bracelet.png", char, canvasChar, function() {
@@ -804,7 +658,7 @@ function drawBracelet(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawBracers(ctx, char, canvasChar, callback) {
+function drawBracers(ctx, char, canvasChar, sex, callback) {
     if (params.bracers != null) {
         var imgUrl = "";
         var imgName = "";
@@ -812,17 +666,14 @@ function drawBracers(ctx, char, canvasChar, callback) {
         if ( res[0] == "leather" ) {
             imgUrl = "hands/bracers/" + sex + "/";
             imgName = res[0] + "_bracers_" + sex;
-            break;
         }
         else if ( res[1] == "cloth" ) {
             imgUrl = "hands/bracers/" + sex + "/";
             imgName = res[0] + "_cloth_" + res[2];
-            break;
         }
         else if ( res[0] == "cloth" ) {
             imgUrl = "hands/bracers/" + sex + "/";
-            imgName = res[0] + "_bracers_" + sex;
-            break;            
+            imgName = res[0] + "_bracers_" + sex;      
         }
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
@@ -834,21 +685,14 @@ function drawBracers(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawGloves(ctx, char, canvasChar, callback) {
+function drawGloves(ctx, char, canvasChar, sex, callback) {
     if (params.gloves != null) {
         var imgUrl = "";
         var imgName = "";
         var res = params.gloves.split("_");
-        if ( res[0] == "golden" ) {
-            imgUrl = "hands/gloves/" + sex + "/";
-            imgName = res[0] + "_gloves_" + sex;
-            break;
-        }
-        else if ( res[0] == "metal" ) {
-            imgUrl = "hands/bracers/" + sex + "/";
-            imgName = res[0] + "_gloves_" + sex;
-            break;
-        }
+        imgUrl = "hands/gloves/" + sex + "/";
+        imgName = res[0] + "_gloves_" + sex;
+
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
             callback();
@@ -859,7 +703,7 @@ function drawGloves(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawShoes(ctx, char, canvasChar, callback) {
+function drawShoes(ctx, char, canvasChar, sex, callback) {
     if (params.shoes != null) {
         var imgUrl = "";
         var imgName = "";
@@ -867,27 +711,22 @@ function drawShoes(ctx, char, canvasChar, callback) {
         if ( res[0] == "ghillies" ) {
             imgUrl = "feet/";
             imgName = "ghillies_" + sex + "_no_th-sh";
-            break;
         }
         else if ( res[0] == "sara" ) {
             imgUrl = "feet/shoes/" + sex + "/";
             imgName = "SaraShoes";
-            break;
         }
         else if ( res[0] == "boots" ) {
             imgUrl = "feet/armor/" + sex + "/";
             imgName = res[1] + "_boots_" + sex;
-            break;
         }
         else if ( res[0] == "slippers" ) {
             imgUrl = "feet/slippers_" + sex + "/";
             imgName = res[1];
-            break;
         }
         else {
             imgUrl = "feet/shoes/" + sex + "/";
-            imgName = res[0] + "_shoes_" + sex + ;
-            break;   
+            imgName = res[0] + "_shoes_" + sex;
         }
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
@@ -899,7 +738,7 @@ function drawShoes(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawBelt(ctx, char, canvasChar, callback) {
+function drawBelt(ctx, char, canvasChar, sex, callback) {
     if (params.belt != null) {
         var imgUrl = "";
         var imgName = "";
@@ -907,24 +746,20 @@ function drawBelt(ctx, char, canvasChar, callback) {
         if ( res[0] == "leather" ) {
             imgUrl = "belt/" + res[0] + "/" + sex + "/";
             imgName = "leather_" + sex;
-            break;
         }
         else if ( res[0] == "cloth" ) {
             if ( res[1] == "teal" && sex == "female" ) {
-                imgUrl = "belt/" + res[0] + "/" + sex + "/";
-                imgName = res[1] + "_cloth_" + sex;
-                break;
-            }
-            else {
                 imgUrl = "belt/cloth/" + sex + "/";
                 imgName = "teal2_cloth_" + sex;
-                break;
+            }
+            else {
+                imgUrl = "belt/" + res[0] + "/" + sex + "/";
+                imgName = res[1] + "_" + res[0] + "_" + sex;
             }
         }
         else {
-            imgUrl = "belt/cloth/" + sex + "/";
-            imgName = res[1] + "_" + sex + "_no_th-sh.png";
-            break;
+            imgUrl = "belt/metal/" + sex + "/";
+            imgName = res[0] + "_" + sex + "_no_th-sh";
         }
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
@@ -936,7 +771,7 @@ function drawBelt(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawBuckle(ctx, char, canvasChar, callback) {
+function drawBuckle(ctx, char, canvasChar, sex, callback) {
     if (params.buckle != null) {
         var imgUrl = "";
         var imgName = "";
@@ -944,7 +779,6 @@ function drawBuckle(ctx, char, canvasChar, callback) {
 
         imgUrl = "belt/buckles_" + sex + "_no_th-sh/";
         imgName = res[0];
-        break;
 
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
@@ -956,7 +790,7 @@ function drawBuckle(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawNecklace(ctx, char, canvasChar, callback) {
+function drawNecklace(ctx, char, canvasChar, sex, callback) {
     if (params.necklace != null) {
         var imgUrl = "";
         var imgName = "";
@@ -964,7 +798,6 @@ function drawNecklace(ctx, char, canvasChar, callback) {
 
         imgUrl = "accessories/necklaces_" + sex + "_ no_th-sh/";
         imgName = res[0];
-        break;
 
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
@@ -976,7 +809,7 @@ function drawNecklace(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawCapeacc(ctx, char, canvasChar, callback) {
+function drawCapeacc(ctx, char, canvasChar, sex, callback) {
     if (params.capeacc != null) {
         var imgUrl = "";
         var imgName = "";
@@ -994,40 +827,34 @@ function drawCapeacc(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawHat(ctx, char, canvasChar, callback) {
+function drawHat(ctx, char, canvasChar, sex, callback) {
     if (params.hat != null) {
         var imgUrl = "";
         var imgName = "";
         var res = params.hat.split("_");
         if ( res[0] == "bandana" ) {
-            imgUrl = "head/" + res[0] + "/" + sex + "/";
+            imgUrl = "head/" + res[0] + "s/" + sex + "/";
             imgName = res[1];
-            break;
         }
         else if ( res[0] == "cap" ) {
-            imgUrl = "head/" + res[0] + "/" + sex + "/";
+            imgUrl = "head/" + res[0] + "s/" + sex + "/";
             imgName = res[1] + "_cap_" + sex;
-            break;
         }
         else if ( res[0] == "chain" ) {
             imgUrl = "head/helms/" + sex + "/"
             imgName = "chainhat_" + sex;
-            break;
         }
         else if ( res[0] == "hood" ) {
-            imgUrl = "head/" + res[0] + "/" + sex + "/";
+            imgUrl = "head/" + res[0] + "s/" + sex + "/";
             imgName = res[1] + "_hood_" + sex;
-            break;
         }
         else if ( res[0] == "helmet" ) {
             imgUrl = "head/helms/" + sex + "/";
             imgName = res[1] + "_helm_" + sex;
-            break;
         }
         else if ( res[0] == "tiara" ) {
             imgUrl = "head/tiaras_" + sex + "/";
             imgName = res[1];
-            break;
         }
         var img = getImage(ctx, imgUrl + imgName + ".png", char, canvasChar, function() {
             drawImage(ctx, img);
@@ -1039,20 +866,24 @@ function drawHat(ctx, char, canvasChar, callback) {
     }
 }
 
-function drawWeapon(ctx, char, canvasChar, callback) {
+function drawWeapon(ctx, char, canvasChar, sex, callback) {
     // todo
+    callback();
 }
 
-function drawAmmo(ctx, char, canvasChar, callback) {
+function drawAmmo(ctx, char, canvasChar, sex, callback) {
     // todo
+    callback();
 }
 
-function drawShield(ctx, char, canvasChar, callback) {
+function drawShield(ctx, char, canvasChar, sex, callback) {
     // todo
+    callback();
 }
 
-function drawQuiver(ctx, char, canvasChar, callback) {
+function drawQuiver(ctx, char, canvasChar, sex, callback) {
     // todo
+    callback();
 }
 
 /*drawTrucs
