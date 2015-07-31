@@ -1,3 +1,5 @@
+var connectedCharsToDraw = Array();
+
 function message(user, action, param){
     this.user = user;
     this.action = action;
@@ -28,7 +30,10 @@ conn.onmessage = function(e) {
     case "COMING":
         // parses information and display character
         var currentChar = jQuery.parseJSON(mess[2]);
-        map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        //map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        var newChar = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        generate(newChar, currentChar.tileFormula);
+        map.addPersonnage(newChar);
         break;
     case "MOVE":
         for ( var i = 0; i < map.characters.length; ++i ) {
@@ -65,7 +70,14 @@ conn.onmessage = function(e) {
     case "LAUNCH":
         // When the user connects to the game
         var currentChar = jQuery.parseJSON(mess[1]);
-        joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        //joueur = new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        //joueur = new Personnage("Universal-LPC-Spritesheet-Character-Generator/Universal-LPC-spritesheet/body/male/light.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        joueur = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        connectedCharsToDraw.push([joueur, currentChar.tileFormula]);
+        //generate(joueur, currentChar.tileFormula);
+        if ( connectedCharsToDraw.length == 1 ) {
+           generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]); 
+        } 
         map = new Map(currentChar.map);
         map.loadLayers();
         drawRPG();
@@ -83,7 +95,15 @@ conn.onmessage = function(e) {
         break;
     case "CHARSCONNECTED":
         var currentChar = jQuery.parseJSON(mess[2]);
-        map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        //map.addPersonnage(new Personnage("exemple.png", parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name));
+        var newChar = new Personnage(parseInt(currentChar.x), parseInt(currentChar.y), DIRECTION.BAS, currentChar.name);
+        connectedCharsToDraw.push([newChar, currentChar.tileFormula]);
+        if ( connectedCharsToDraw.length == 1 ) {
+           generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]); 
+        } 
+        console.log("charsconnected received ")
+        //generate(newChar, currentChar.tileFormula);
+        map.addPersonnage(newChar);
     default:
         break;
     } 
