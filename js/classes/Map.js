@@ -66,7 +66,7 @@ function Map(json) {
 		this.characters.push(char);
 	};
 
-	// Elects and draws the corretc tile from a tileset
+	// Elects and draws the correct tile from a tileset
 	this.electAndDrawTile = function(currentTile, context, i, j) {
 		var tilesetToUse;
 		for ( var l = 0; l < this.tilesets.length; ++l ) {
