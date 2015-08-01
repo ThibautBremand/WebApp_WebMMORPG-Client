@@ -1,6 +1,7 @@
 function AudioManager() {
 
 	this.currentAudio = new Audio();
+	this.currentAudioLabel = "";
 
 	this.launchAudio = function(path) {
 		if ( this.currentAudio != null ) {
@@ -8,18 +9,19 @@ function AudioManager() {
 			this.currentAudio.currentTime = 0;
 		}
 		this.currentAudio = new Audio(path); 
-		/*this.currentAudio.addEventListener('ended', function() {
+		this.currentAudio.addEventListener('ended', function() {
 		    this.currentTime = 0;
 		    this.play();
-		}, false);*/
+		}, false);
 
-		this.currentAudio.addEventListener('timeupdate', function(){
+		/*this.currentAudio.addEventListener('timeupdate', function(){
         var buffer = .44
         if(this.currentTime > this.duration - buffer){
             this.currentTime = 0
             this.play()
-        }}, false);
+        }}, false);*/
 
 		this.currentAudio.play();
+		this.currentAudioLabel = path;
 	};
 }

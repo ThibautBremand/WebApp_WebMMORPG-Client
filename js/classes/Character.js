@@ -5,8 +5,8 @@ var DIRECTION = {
 	"HAUT"   : 0
 }
 
-var DUREE_ANIMATION = 4;
-var DUREE_DEPLACEMENT = 15;
+var DUREE_ANIMATION = 1; //4
+var DUREE_DEPLACEMENT = 10; //15
 var TILESET_WIDTH = 13;
 var TILESET_HEIGHT = 21;
 var ROW_MOVEMENT = 8;
@@ -42,8 +42,10 @@ function Personnage(x, y, direction, nickname) {
 		} else if(this.etatAnimation >= 0) {
 		// Determines the image (frame) to display for the animation
 		frame = Math.floor(this.etatAnimation / DUREE_ANIMATION);
-		if(frame > 3) {
-			frame %= 4;
+					console.log(this.etatAnimation + " - " +  DUREE_ANIMATION);
+					console.log(frame);
+		if(frame > 8) { //3
+			frame %= 9; //4
 		}
 		
 		// Pixels count left to proceed
@@ -69,7 +71,6 @@ function Personnage(x, y, direction, nickname) {
 		 * frame, decalageX et decalageY
 		 */
 		
-		// TODO : balayer depuis un JSON d'attributs pour le char et afficher les layers sur le canvas
 		if ( this.image != null && this.image.width > 0 ) {
 			this.image.characterReference.largeur = this.image.width / TILESET_WIDTH;
 		}
