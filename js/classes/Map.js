@@ -10,8 +10,8 @@ function Map(json) {
     this.collisions = new Array();
     this.neighbors = new Array();
 
-    if (audioManager.currentAudioLabel != "audio/09_309_-_Desert_Battle.ogg") {
-    	//audioManager.launchAudio("audio/09_309_-_Desert_Battle.ogg")
+    if (audioManager.currentAudioLabel != json.bgMusic) {
+    	audioManager.launchAudio(json.bgMusic);
 	}
 
     // Loads the layers from the json files given

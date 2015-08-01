@@ -21,17 +21,6 @@ function Personnage(x, y, direction, nickname) {
 	// Loads the image in the image attribute
 	this.image = new Image();
 	this.image.characterReference = this;
-	/*this.image.onload = function() {
-		if(!this.complete) 
-			throw "Error : Cannot load the following sprite \"" + url + "\".";
-		
-		// Character's size
-		//alert ( "width : " + (this.width / 21) + " - height : " +   (this.height / 13))
-		this.characterReference.largeur = this.width / TILESET_WIDTH;
-		this.characterReference.hauteur = this.height / TILESET_HEIGHT;
-	}
-	this.image.src = "sprites/" + url;*/
-
 
 	this.drawCharacter = function(context) {
 		var frame = 0; // Image's number to take for the animation
@@ -42,8 +31,6 @@ function Personnage(x, y, direction, nickname) {
 		} else if(this.etatAnimation >= 0) {
 		// Determines the image (frame) to display for the animation
 		frame = Math.floor(this.etatAnimation / DUREE_ANIMATION);
-					console.log(this.etatAnimation + " - " +  DUREE_ANIMATION);
-					console.log(frame);
 		if(frame > 8) { //3
 			frame %= 9; //4
 		}
@@ -66,8 +53,8 @@ function Personnage(x, y, direction, nickname) {
 		this.etatAnimation++;
 		}
 		/*
-		 * Si aucune des deux conditions n'est vraie, c'est qu'on est immobile, 
-		 * donc il nous suffit de garder les valeurs 0 pour les variables 
+		 * If both conditions are false, means that the user is not moving
+		 * so we keep the value 0 for the following variables
 		 * frame, decalageX et decalageY
 		 */
 		
