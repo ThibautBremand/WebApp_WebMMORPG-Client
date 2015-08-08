@@ -5,18 +5,20 @@ var separator = "%:%";
 
 var map;
 var audioManager = new AudioManager();
-var cWIdth = 25 * tileSize;
-var cHight = 20 * tileSize;
+/*var cWIdth = 25 * tileSize;
+var cHeight = 20 * tileSize;*/
+var cWIdth = 10 * tileSize;
+var cHeight = 10 * tileSize;
 
 function drawRPG() {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	
 	canvas.width  = cWIdth;
-	canvas.height = cHight;
+	canvas.height = cHeight;
 	
 	setInterval(function() {
-		map.drawMap(ctx);
+		map.drawMap(ctx, document.getElementById('debug').getContext('2d'));
 	}, 40);
 	
 	// Keyboard management

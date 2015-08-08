@@ -33,6 +33,9 @@
 	<body>
 		<canvas id="canvas"></canvas>
 
+		<br>
+		<canvas id="debug" width="800" height="640" style="display:none"></canvas>
+
 		<div id="logs"></div>
 
 	</body>
