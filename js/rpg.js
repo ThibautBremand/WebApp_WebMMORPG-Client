@@ -5,13 +5,15 @@ var separator = "%:%";
 
 var map;
 var audioManager = new AudioManager();
+var cWIdth = 25 * tileSize;
+var cHight = 20 * tileSize;
 
 function drawRPG() {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	
-	canvas.width  = map.width * tileSize;
-	canvas.height = map.height * tileSize;
+	canvas.width  = cWIdth;
+	canvas.height = cHight;
 	
 	setInterval(function() {
 		map.drawMap(ctx);
