@@ -11,7 +11,7 @@ function Map(json) {
     this.neighbors = new Array();
 
     if (audioManager.currentAudioLabel != json.bgMusic) {
-    	//audioManager.launchAudio(json.bgMusic);
+    	audioManager.launchAudio(json.bgMusic);
 	}
 
     // Loads the layers from the json files given
@@ -49,14 +49,13 @@ function Map(json) {
 		context.clearRect(0, 0, cWIdth, cHeight);//clear the viewport AFTER the matrix is reset
 
 	    //Clamp the camera position to the world bounds while centering the camera around the player                                             
-	    var camX = this.clamp(-(-(joueur.x * tileSize) + cWIdth/2), 0, map.width * tileSize - cWIdth, true);
-	    var camY = this.clamp(-(-(joueur.y * tileSize) + cHeight/2), 0, map.height * tileSize - cHeight, false);
+	    var camX = this.clamp(-(-(joueur.x * tileSize) + cWIdth/2), 0, map.width * tileSize - cWIdth);
+	    var camY = this.clamp(-(-(joueur.y * tileSize) + cHeight/2), 0, map.height * tileSize - cHeight);
 	    /*
 		var camX = clamp(-player.x + canvas.width/2, yourWorld.minX, yourWorld.maxX - canvas.width);
     	var camY = clamp(-player.y + canvas.height/2, yourWorld.minY, yourWorld.maxY - canvas.height);
 	    */
-	    
-	    context.translate( -camX, -camY );    
+	    this.translate(-camX, -camY, context);
 	    //console.log(camX + " - " + camY);
 	   	//console.log("Player : " + joueur.x * tileSize + " - " + joueur.y * tileSize + " canvas size : w : " + cWIdth + " - h : " + cHeight + " map : w : " + map.width * tileSize + " - h : " + map.height * tileSize)
 		//console.log("Translate : " + camX + " - " + camY);
@@ -79,15 +78,17 @@ function Map(json) {
 		for(var i = 0, l = this.characters.length ; i < l ; i++) {
 			this.characters[i].drawCharacter(context);
 		}
-
-
 	};
 
-	this.clamp = function(value, min, max, b){
-		if (b) console.log("Check value : " + value + " min : " + min + " max : " + max);
+	this.clamp = function(value, min, max){
 	    if(value < min) return min;
 	    else if(value > max) return max;
 	    return value;
+	};
+
+	this.translate = function( camX, camY, context ) {
+		context.translate( camX, camY );
+		console.log("Translate : " + camX + " , " + camY);
 	};
 
 	// To add a character
