@@ -9,6 +9,8 @@ function Map(json) {
     this.tilesets = new Array();
     this.collisions = new Array();
     this.neighbors = new Array();
+    this.camX = 0;
+    this.camY = 0;
 
     if (audioManager.currentAudioLabel != json.bgMusic) {
     	audioManager.launchAudio(json.bgMusic);
@@ -49,13 +51,11 @@ function Map(json) {
 		context.clearRect(0, 0, cWIdth, cHeight);//clear the viewport AFTER the matrix is reset
 
 	    //Clamp the camera position to the world bounds while centering the camera around the player                                             
-	    var camX = this.clamp(-(-(joueur.x * tileSize) + cWIdth/2), 0, map.width * tileSize - cWIdth);
-	    var camY = this.clamp(-(-(joueur.y * tileSize) + cHeight/2), 0, map.height * tileSize - cHeight);
 	    /*
 		var camX = clamp(-player.x + canvas.width/2, yourWorld.minX, yourWorld.maxX - canvas.width);
     	var camY = clamp(-player.y + canvas.height/2, yourWorld.minY, yourWorld.maxY - canvas.height);
 	    */
-	    this.translate(-camX, -camY, context);
+	    this.translate(-this.camX, -this.camY, context);
 	    //console.log(camX + " - " + camY);
 	   	//console.log("Player : " + joueur.x * tileSize + " - " + joueur.y * tileSize + " canvas size : w : " + cWIdth + " - h : " + cHeight + " map : w : " + map.width * tileSize + " - h : " + map.height * tileSize)
 		//console.log("Translate : " + camX + " - " + camY);
@@ -94,6 +94,10 @@ function Map(json) {
 	// To add a character
 	this.addPersonnage = function(char) {
 		this.characters.push(char);
+		if (char === joueur) {
+			map.camX = map.clamp(-(-(joueur.x * tileSize) + cWIdth/2), 0, map.width * tileSize - cWIdth);
+    		map.camY = map.clamp(-(-(joueur.y * tileSize) + cHeight/2), 0, map.height * tileSize - cHeight);
+		}
 	};
 
 	// Elects and draws the correct tile from a tileset

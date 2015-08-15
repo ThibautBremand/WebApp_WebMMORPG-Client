@@ -28,30 +28,45 @@ function Personnage(x, y, direction, nickname) {
 		if(this.etatAnimation >= DUREE_DEPLACEMENT) {
 			// Aborts the movement if the timer is done
 			this.etatAnimation = -1;
+
+			// Initializes the map translation when the main character is drawn
+			if(this === joueur) {
+				map.camX = map.clamp(-(-(joueur.x * tileSize) + cWIdth/2), 0, map.width * tileSize - cWIdth);
+    			map.camY = map.clamp(-(-(joueur.y * tileSize) + cHeight/2), 0, map.height * tileSize - cHeight);
+			}
 		} else if(this.etatAnimation >= 0) {
-		// Determines the image (frame) to display for the animation
-		frame = Math.floor(this.etatAnimation / DUREE_ANIMATION);
-		if(frame > 8) { //3
-			frame %= 9; //4
+			// Determines the image (frame) to display for the animation
+			frame = Math.floor(this.etatAnimation / DUREE_ANIMATION);
+			if(frame > 8) { //3
+				frame %= 9; //4
+			}
+			
+			// Pixels count left to proceed
+			var pixelsAParcourir = 32 - (32 * (this.etatAnimation / DUREE_DEPLACEMENT));
+			
+			// From this number, decides the offset for x & y
+			if(this.direction == DIRECTION.HAUT) {
+				decalageY = pixelsAParcourir;
+			} else if(this.direction == DIRECTION.BAS) {
+				decalageY = -pixelsAParcourir;
+			} else if(this.direction == DIRECTION.GAUCHE) {
+				decalageX = pixelsAParcourir;
+			} else if(this.direction == DIRECTION.DROITE) {
+				decalageX = -pixelsAParcourir;
+			}
+			
+			// One more frame
+			this.etatAnimation++;
+
+			tempocamX = map.clamp(-(-(joueur.x * tileSize) + cWIdth/2), 0, map.width * tileSize - cWIdth);
+			tempocamY = map.clamp(-(-(joueur.y * tileSize) + cHeight/2), 0, map.height * tileSize - cHeight);
+
+			if (tempocamX != map.camX || tempocamY != map.camY) {
+		   		map.camX = tempocamX + Math.round(decalageX);
+	    		map.camY = tempocamY + Math.round(decalageY);
+	    	}
 		}
-		
-		// Pixels count left to proceed
-		var pixelsAParcourir = 32 - (32 * (this.etatAnimation / DUREE_DEPLACEMENT));
-		
-		// From this number, decides the offset for x & y
-		if(this.direction == DIRECTION.HAUT) {
-			decalageY = pixelsAParcourir;
-		} else if(this.direction == DIRECTION.BAS) {
-			decalageY = -pixelsAParcourir;
-		} else if(this.direction == DIRECTION.GAUCHE) {
-			decalageX = pixelsAParcourir;
-		} else if(this.direction == DIRECTION.DROITE) {
-			decalageX = -pixelsAParcourir;
-		}
-		
-		// One more frame
-		this.etatAnimation++;
-		}
+
 		/*
 		 * If both conditions are false, means that the user is not moving
 		 * so we keep the value 0 for the following variables
@@ -67,16 +82,15 @@ function Personnage(x, y, direction, nickname) {
 		if ( this.image.width > 0 &&  this.image.height > 0) {
 			context.drawImage(
 				this.image, 
-				this.largeur * frame, this.direction * this.hauteur + this.hauteur * ROW_MOVEMENT, // Point d'origine du rectangle source à prendre dans notre image
-				this.largeur, this.hauteur, // Taille du rectangle source (c'est la taille du personnage)
-				// Point de destination (dépend de la taille du personnage)
+				this.largeur * frame, this.direction * this.hauteur + this.hauteur * ROW_MOVEMENT, // Source rectangle's origin point to take in our image
+				this.largeur, this.hauteur, // Source rectangle's size (our character's size)
+				// Destination point (depends upon character's size)
 				(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY,
-				this.largeur, this.hauteur // Taille du rectangle destination (c'est la taille du personnage)
+				this.largeur, this.hauteur // Destination rectangle's size (our character's size)
 			);
 		}
 		var nicklength = this.name.length;
 		context.fillText(this.name,(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY + 5);
-
 	};
 
 	this.getCoordonneesAdjacentes = function(direction) {
