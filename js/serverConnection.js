@@ -77,6 +77,7 @@ conn.onmessage = function(e) {
         if ( connectedCharsToDraw.length == 1 ) {
            generate(connectedCharsToDraw[0][0], connectedCharsToDraw[0][1]); 
         } 
+
         map = new Map(currentChar.map);
         map.loadLayers();
         drawRPG();

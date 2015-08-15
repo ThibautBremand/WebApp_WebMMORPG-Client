@@ -9,6 +9,12 @@ function Map(json) {
     this.tilesets = new Array();
     this.collisions = new Array();
     this.neighbors = new Array();
+    this.camX = 0;
+    this.camY = 0;
+
+    if (audioManager.currentAudioLabel != json.bgMusic) {
+    	audioManager.launchAudio(json.bgMusic);
+	}
 
     // Loads the layers from the json files given
     this.loadLayers = function() {
@@ -40,7 +46,20 @@ function Map(json) {
     };
 
     // Draws the object Map
-    this.drawMap = function(context) {
+    this.drawMap = function(context, contextDebug) {
+		context.setTransform(1,0,0,1,0,0);//reset the transform matrix as it is cumulative
+		context.clearRect(0, 0, cWIdth, cHeight);//clear the viewport AFTER the matrix is reset
+
+	    //Clamp the camera position to the world bounds while centering the camera around the player                                             
+	    /*
+		var camX = clamp(-player.x + canvas.width/2, yourWorld.minX, yourWorld.maxX - canvas.width);
+    	var camY = clamp(-player.y + canvas.height/2, yourWorld.minY, yourWorld.maxY - canvas.height);
+	    */
+	    this.translate(-this.camX, -this.camY, context);
+	    //console.log(camX + " - " + camY);
+	   	//console.log("Player : " + joueur.x * tileSize + " - " + joueur.y * tileSize + " canvas size : w : " + cWIdth + " - h : " + cHeight + " map : w : " + map.width * tileSize + " - h : " + map.height * tileSize)
+		//console.log("Translate : " + camX + " - " + camY);
+
 		// Draws the layers
 		for (currMap = 0; currMap < this.layers.length; ++currMap ) {
 			var cpt = 0;
@@ -48,7 +67,7 @@ function Map(json) {
 				for (var i = 0; i < this.width; ++i) {
 					var currentTile = this.layers[currMap][cpt];
 					if ( currentTile > 0 ) {
-						this.electAndDrawTile(currentTile, context, i, j);
+						this.electAndDrawTile(currentTile, context, i, j, contextDebug);
 					}
 					cpt++;
 				}
@@ -61,28 +80,46 @@ function Map(json) {
 		}
 	};
 
+	this.clamp = function(value, min, max){
+	    if(value < min) return min;
+	    else if(value > max) return max;
+	    return value;
+	};
+
+	this.translate = function( camX, camY, context ) {
+		context.translate( camX, camY );
+		console.log("Translate : " + camX + " , " + camY);
+	};
+
 	// To add a character
 	this.addPersonnage = function(char) {
 		this.characters.push(char);
+		if (char === joueur) {
+			map.camX = map.clamp(-(-(joueur.x * tileSize) + cWIdth/2), 0, map.width * tileSize - cWIdth);
+    		map.camY = map.clamp(-(-(joueur.y * tileSize) + cHeight/2), 0, map.height * tileSize - cHeight);
+		}
 	};
 
 	// Elects and draws the correct tile from a tileset
-	this.electAndDrawTile = function(currentTile, context, i, j) {
+	this.electAndDrawTile = function(currentTile, context, i, j, contextDebug) {
 		var tilesetToUse;
 		for ( var l = 0; l < this.tilesets.length; ++l ) {
 			if ( this.tilesets[l].firstgid > currentTile && currentTile > 1 ) {
 				tilesetToUse = this.tilesets[l - 1];
 				tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + l, context, i*tileSize, j*tileSize);
+				//tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + l, contextDebug, i*tileSize, j*tileSize);
 				return true;
 			}
 		}
 		if ( tileSize == 16 ) {
 			tilesetToUse = this.tilesets[this.tilesets.length - 1];
 			tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + this.tilesets.length , context, i*tileSize, j*tileSize);
+			//tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + this.tilesets.length , contextDebug, i*tileSize, j*tileSize);
 		}
 		else if ( tileSize == 32 ) {
 			tilesetToUse = this.tilesets[this.tilesets.length - 1];
 			tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + this.tilesets.length - 1, context, i*tileSize, j*tileSize);
+			//tilesetToUse.drawTitle(currentTile - tilesetToUse.firstgid + this.tilesets.length - 1, contextDebug, i*tileSize, j*tileSize);
 		}
 	};
 
