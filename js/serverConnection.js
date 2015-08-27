@@ -103,6 +103,9 @@ conn.onmessage = function(e) {
             }
             map.addPersonnage(newChar);
         }
+    case "MONSTERSMOVEMENT":
+        console.log(mess[1]);
+        break;
     default:
         break;
     } 

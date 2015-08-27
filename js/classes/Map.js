@@ -88,7 +88,7 @@ function Map(json) {
 
 	this.translate = function( camX, camY, context ) {
 		context.translate( camX, camY );
-		console.log("Translate : " + camX + " , " + camY);
+		//console.log("Translate : " + camX + " , " + camY);
 	};
 
 	// To add a character
